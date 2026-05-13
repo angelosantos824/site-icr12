@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICR12MPU - Home</title>
+    <!-- Vinculação do seu CSS que contém as classes .sticky, .glass-box, etc -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="sticky">
+        <nav class="navbar">
+            <div class="logo">
+                <!-- Referência ao ficheiro de imagem do logotipo da igreja -->
+                <img src="Imagens/logo.jpeg" alt="ICR Logo">
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="sobre.html">Sobre</a></li>
+                <li><a href="estudos.html">Estudos</a></li>
+                <li><a href="decretos.html">Decretos</a></li>
+                <li><a href="Noticias.html">Notícias</a></li>
+                <li><a href="Contactos.html">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="tema-wrapper">
+            <!-- Fundo dinâmico do tema profético -->
+            <div class="tema-background">
+                <img src="https://static.wixstatic.com/media/680587_81066b7571374f88b50998b9d39d49c9~mv2.png/v1/fill/w_1920,h_874,al_t,q_90,enc_avif,quality_auto/680587_81066b7571374f88b50998b9d39d49c9~mv2.png" alt="Fundo Tema 2026">
+            </div>
+            <div class="overlay-tema"></div>
+
+            <div class="tema-content">
+                <div class="logo-topo">
+                    <img src="https://static.wixstatic.com/media/680587_3b72715ef81947819bf085c2851abf65~mv2.png/v1/crop/x_0,y_16,w_240,h_46/fill/w_147,h_28,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/M12%20E%20TEMA.png" alt="Logo M12" width="147">
+                </div>
+
+                <!-- Título do Tema 2026 -->
+                <img src="https://static.wixstatic.com/media/680587_ab020af47a7b41dd83cb6d2ff4fc43e4~mv2.png/v1/crop/x_0,y_10,w_1038,h_273/fill/w_441,h_116,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/TEMA%20WITH%20BLUR%20NO%20BG.png" alt="Título Tema 2026" style="max-width: 100%; height: auto;">
+
+                <br>
+                
+                <a href="Imagens/EXPANDI.png" class="btn-download">
+                    Downloads dos Arquivos do Tema 2026
+                </a>
+
+                <!-- Bloco de texto com efeito Glassmorphism definido no seu CSS -->
+                <div class="texto-biblico">
+                    <p>
+                        “Amplia o lugar da tua tenda, e estendam-se as cortinas das tuas habitações; não o impeças; alonga as tuas cordas, e fixa bem as tuas estacas. Porque transbordarás para a direita e para a esquerda; e a tua descendência possuirá os gentios e fará que sejam habitadas as cidades assoladas.”
+                        <br><strong>(Isaías 54:2,3)</strong>
+                    </p>
+                    <hr style="opacity: 0.3; margin: 20px 0;">
+                    <p>
+                        Você pode ver seu território sendo expandido dentro do propósito que a família tem. 
+                        <strong>“A família é o núcleo da sociedade e a chave para a transformação do mundo”.</strong> – Rick Warren.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+<!-- Modal de Transmissão -->
+<div id="modalCulto" class="modal-overlay">
+    <div class="glass-modal">
+        <span class="close-modal" onclick="closeLiveModal()">&times;</span>
+        
+        <div class="modal-header">
+            <div class="live-indicator">
+                <span class="dot"></span> AO VIVO / ÚLTIMO CULTO
+            </div>
+            <h2>Canal ICR12 Oficial</h2>
+        </div>
+
+        <div class="video-container">
+            <!-- Usando a playlist de envios (UU + ID do Canal) para garantir o último vídeo -->
+            <iframe 
+                src="https://www.youtube.com/embed/videoseries?list=UUU_n_8Iun6v-Xf0X90M6q-g" 
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <div class="modal-footer">
+            <p>Acompanhe nossa programação semanal e seja abençoado.</p>
+            <a href="https://youtube.com/@icr12_oficial" target="_blank" class="btn-youtube">Ir para o YouTube</a>
+        </div>
+    </div>
+</div>
+<section class="oracao-section">
+    <div class="glass-box oracao-container">
+        <h2 class="title-gold">Plano de Oração: Expansão 2026</h2>
+        <p class="subtitle">"Alonga as tuas cordas e fixa bem as tuas estacas."</p>
+        
+        <div class="oracao-grid">
+            <div class="dia-card">
+                <span class="dia-label">SEG</span>
+                <p>Família e Unidade</p>
+            </div>
+            <div class="dia-card">
+                <span class="dia-label">TER</span>
+                <p>Governo e Nação</p>
+            </div>
+            <div class="dia-card">
+                <span class="dia-label">QUA</span>
+                <p>Células e Liderança</p>
+            </div>
+            <div class="dia-card">
+                <span class="dia-label">QUI</span>
+                <p>Saúde e Provisão</p>
+            </div>
+            <div class="dia-card">
+                <span class="dia-label">SEX</span>
+                <p>Novas Conquistas</p>
+            </div>
+            <div class="dia-card destaque">
+                <span class="dia-label">SÁB</span>
+                <p>Juventude e Futuro</p>
+            </div>
+            <div class="dia-card destaque">
+                <span class="dia-label">DOM</span>
+                <p>Culto de Celebração</p>
+            </div>
+        </div>
+        
+        <div class="footer-frase">
+            <p>Relógio de Oração: 24h em unidade no propósito.</p>
+        </div>
+    </div>
+</section>
+<section class="leitura-section">
+    <div class="glass-box leitura-container">
+        <div class="leitura-header">
+            <h2 class="title-gold">Plano de Leitura Anual</h2>
+            <p id="data-atual"></p>
+        </div>
+        
+        <div class="leitura-content">
+            <div class="capitulo-box">
+                <span class="label-dourado">Leitura de Hoje:</span>
+                <h3 id="trecho-biblico">Calculando leitura...</h3>
+                <br>
+                <a id="link-leitura" href="#" target="_blank" class="btn-ler-agora">Ler Capítulo Completo</a>
+            </div>
+            <p class="incentivo">"A tua palavra é lâmpada que ilumina os meus passos."</p>
+        </div>
+        
+        <!-- <div class="progresso-container">
+            <div class="progresso-bar">
+                <div id="barra-concluida" class="progresso-fill"></div>
+            </div>
+            <span id="porcentagem-ano">0% do ano concluído</span>
+        </div> -->
+    </div>
+</section>
+
+<!-- LÓGICA DO SITE (SCRIPT.JS) -->
+    <script src="script.js"></script>
+
+    <footer class="footer">
+        <p>Copyright © 2026 IGREJA EM CÉLULA DA RESTAURAÇÃO.</p>
+        <p><small>Desenvolvido por Angelo Santos</small></p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+ <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICR12MPU - Home</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <nav class="navbar">
+        <div class="logo">ESTUDOS DA SEMANA</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="estudos.html" class="active">Estudos</a></li>
+            <li><a href="decretos.html">Decretos</a></li>
+            <li><a href="Contactos.html">Contato</a></li>
+            <li><a href="download.html">Download</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section class="section" id="projetos">
+        <div class="projects-grid">
+    <!-- Card Estudo dos 12 -->
+    <div class="project-card">
+        <div class="capa-estudo">
+            <img src="Imagens/capa-12.jpg" alt="Capa Estudo 12">
+        </div>
+        <h3>Estudo para os 12</h3>
+        <p>Resumo semanal para liderança.</p>
+        <button class="project-link" onclick="openModal('modal12')">Abrir Estudo</button>
+    </div>
+
+    <!-- Card Estudo de Células -->
+    <div class="project-card">
+        <div class="capa-estudo">
+            <img src="Imagens/capa-celula.jpg" alt="Capa Estudo Célula">
+        </div>
+        <h3>Estudo para Células</h3>
+        <p>Palavra semanal para as casas.</p>
+        <button class="project-link" onclick="openModal('modalCelula')">Abrir Estudo</button>
+    </div>
+</div>
+
+<!-- ESTRUTURA DOS MODAIS (Fica no final do body) -->
+<div id="modal12" class="modal-overlay">
+    <div class="glass-modal">
+        <span class="close-modal" onclick="closeModal('modal12')">&times;</span>
+        <h2 class="title-gold">Estudo para os 12</h2>
+        <div id="conteudo-12" class="modal-scroll">
+            <p>Carregando conteúdo...</p>
+        </div>
+    </div>
+</div>
+
+<div id="modalCelula" class="modal-overlay">
+    <div class="glass-modal">
+        <span class="close-modal" onclick="closeModal('modalCelula')">&times;</span>
+        <h2 class="title-gold">Estudo para Células</h2>
+        <div id="conteudo-celula" class="modal-scroll">
+            <p>Carregando conteúdo...</p>
+        </div>
+    </div>
+</div>
+</section> 
+        </main> 
+<footer class="footer">
+    <p>Copyright © 2026 IGREJA EM CÉLULA DA RESTAURAÇÃO.</p>
+    <p><small>Desenvolvido por Angelo Santos</small></p>
+</footer>
+
+</body>
+</html>
