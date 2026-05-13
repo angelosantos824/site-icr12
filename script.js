@@ -92,8 +92,7 @@ async function openModal(modalId) {
     try {
         const response = await fetch(ficheiro);
         const texto = await response.text();
-        document.getElementById(containerId).innerHTML = `<div class="texto-formatado">${texto}</div>`;
-    } catch (error) {
+        document.getElementById(containerId).innerHTML = `<div class="texto-formatado">${texto}</div>`;    } catch (error) {
         document.getElementById(containerId).innerHTML = "<p>Erro ao carregar o estudo. Tente novamente.</p>";
     }
 }
