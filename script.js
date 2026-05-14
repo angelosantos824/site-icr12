@@ -153,32 +153,39 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     // Cálculo: 1189 capítulos / 365 dias ≈ 3.25 capítulos por dia
-    let metaCapitulo = Math.floor(diaDoAno * 3.25);
-    let acumulado = 0;
-    let leituraHoje = "";
+   // Procura os elementos uma única vez
+const linkLeitura = document.getElementById('link-leitura');
+const trechoBiblico = document.getElementById('trecho-biblico');
 
+// Só executa a lógica se o elemento 'link-leitura' existir na página atual
+if (linkLeitura) {
     for (let livro of biblia) {
         if (acumulado + livro.c >= metaCapitulo) {
             let inicio = Math.max(1, metaCapitulo - acumulado);
             let fim = Math.min(livro.c, inicio + 2);
             leituraHoje = `${livro.n} ${inicio}-${fim}`;
             
-            // Link dinâmico para a Bíblia Online
             const slug = livro.n.toLowerCase().replace(/ /g, "-");
-            document.getElementById('link-leitura').href = `https://www.bibliaonline.com.br/acf/${slug}/${inicio}`;
+            linkLeitura.href = `https://www.bibliaonline.com.br/acf/${slug}/${inicio}`;
             break;
         }
         acumulado += livro.c;
     }
 
-    // Atualização da UI
-    document.getElementById('trecho-biblico').innerText = leituraHoje;
-    document.getElementById('data-atual').innerText = agora.toLocaleDateString('pt-PT', {day:'numeric', month:'long'});
+    // Atualização da UI (apenas se os elementos existirem)
+    if (trechoBiblico) trechoBiblico.innerText = leituraHoje;
     
-    const progresso = (diaDoAno / 365) * 100;
-    document.getElementById('barra-concluida').style.width = progresso + "%";
-    document.getElementById('porcentagem-ano').innerText = Math.round(progresso) + "% do ano concluído";
-});
+    const dataAtual = document.getElementById('data-atual');
+    if (dataAtual) dataAtual.innerText = agora.toLocaleDateString('pt-PT', {day:'numeric', month:'long'});
+    
+    const barra = document.getElementById('barra-concluida');
+    if (barra) {
+        const progresso = (diaDoAno / 365) * 100;
+        barra.style.width = progresso + "%";
+        const porcTexto = document.getElementById('porcentagem-ano');
+        if (porcTexto) porcTexto.innerText = Math.round(progresso) + "% do ano concluído";
+    }
+}
 
 /* ============================================================================
                 //    MODAL DE ESTUDOS  //
