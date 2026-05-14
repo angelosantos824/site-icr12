@@ -1,3 +1,107 @@
+
+// ===========================================================================
+//                 //    SUPABASE - EXEMPLO DE LEITURA  //
+// ===========================================================================
+// Configuração do Supabase (Substitui pelas tuas chaves do projeto ICR12)
+// 1. Configuração (Usa as chaves que aparecem no teu painel do Supabase)
+const supabaseUrl = 'https://qczmyahiitbtrmsoimxf.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFjem15YWhpaXRidHJtc29pbXhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NjkyMTIsImV4cCI6MjA5NDM0NTIxMn0.tN8coprZC5mXV50t0IXPEIPl2ZGU8-t3Qygcp_mUAp8';
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+// 2. Lógica do Formulário de Login
+const loginForm = document.getElementById('login-form');
+
+if (loginForm) {
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        // Tenta fazer o login
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password,
+        });
+
+        if (error) {
+            alert('Erro ao entrar: ' + error.message);
+        } else {
+            // Se o login funcionar, chamamos a função de verificação
+            verificarNivelAcesso(data.user);
+        }
+    });
+}
+
+// 3. Função de Redirecionamento (Admin vs Membro)
+async function verificarNivelAcesso(user) {
+    const { data, error } = await supabase
+        .from('profiles') // Nome da tabela que criaste no Supabase
+        .select('cargo')
+        .eq('id', user.id)
+        .single();
+
+    if (data && data.cargo === 'admin') {
+        window.location.href = 'admin.html'; // Se for admin, vai para o CRUD
+    } else {
+        window.location.href = 'index.html'; // Se for membro, volta para a Home
+    }
+}
+
+// --- Lógica de Criação de Usuário (CRUD) ---
+
+async function salvarNovoUsuario() {
+    // 1. Captura os valores dos campos do seu formulário no admin.html
+    const nome = document.getElementById('input-nome').value;
+    const email = document.getElementById('input-email').value;
+    const cargoSelecionado = document.getElementById('select-cargo').value;
+
+    // 2. A sua REGRA DE SEGURANÇA (Coloque aqui)
+    if (cargoSelecionado === 'dozefull') {
+        alert("Erro: Este cargo é exclusivo do Administrador Geral.");
+        return; // O código para aqui e não envia nada ao Supabase
+    }
+
+    // 3. Se passar na regra, envia para o Supabase
+    try {
+        // Primeiro cria o acesso no Auth (precisaria de uma Edge Function ou lógica de Admin)
+        // Por agora, vamos focar em inserir na tabela 'profiles'
+        const { data, error } = await supabase
+            .from('profiles')
+            .insert([
+                { nome: nome, cargo: cargoSelecionado, email: email }
+            ]);
+
+        if (error) throw error;
+
+        alert("Usuário criado com sucesso!");
+        carregarListaUsuarios(); // Função para atualizar a tabela na tela
+    } catch (error) {
+        alert("Erro ao salvar: " + error.message);
+    }
+}
+
+async function carregarListaUsuarios(usuarioLogado) {
+    let query = supabase.from('profiles').select('*');
+
+    // Regras de Visualização baseadas no cargo
+    if (usuarioLogado.cargo === 'dozefull') {
+        // Não filtra nada, vê tudo
+    } else if (usuarioLogado.cargo === 'Apóstolo') {
+        query = query.in('cargo', ['pastor', 'doze', '144', 'discipulo']);
+    } else if (usuarioLogado.cargo === 'Pastor' || usuarioLogado.cargo === 'doze') {
+        query = query.in('cargo', ['doze', '144', 'discipulo']);
+    } else if (usuarioLogado.cargo === '144') {
+        query = query.eq('cargo', 'discipulo');
+    } else {
+        // Discípulo vê apenas o seu ID
+        query = query.eq('id', usuarioLogado.id);
+    }
+
+    const { data, error } = await query;
+    // ... lógica para renderizar a tabela no HTML
+}
+
 function closeLiveModal() {
     const modal = document.getElementById('modalCulto');
     modal.style.display = 'none';

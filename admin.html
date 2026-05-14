@@ -1,0 +1,16 @@
+<!-- Exemplo de como deve estar no seu HTML -->
+<select id="select-cargo">
+    <option value="discipulo">Discípulo</option>
+    <option value="144">144</option>
+    <option value="doze">Doze (12)</option>
+    <option value="pastor">Pastor</option>
+    <option value="apostolo">Apóstolo</option>
+    <option value="dozefull">Dozefull (Admin)</option> <!-- Mesmo que apareça aqui, o JS vai bloquear -->
+</select>
+
+<button type="button" onclick="salvarNovoUsuario()">Gravar Membro</button>
+
+<!-- No final do admin.html -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
