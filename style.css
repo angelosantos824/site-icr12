@@ -1073,9 +1073,51 @@ blockquote::before {
     color: #fff;
 }
 
-/* Responsividade */
-@media (min-width: 768px) {
-    .calendario-container {
-        grid-template-columns: 1fr 1fr; /* Duas colunas no PC */
+/* Esconder o botão no Desktop */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    gap: 5px;
+}
+
+.bar {
+    width: 25px;
+    height: 3px;
+    background-color: #d4af37; /* Cor dourada do seu tema */
+    border-radius: 10px;
+}
+
+/* ESTILOS PARA TELEMÓVEL (Mobile) */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: flex; /* Mostra o botão no telemóvel */
+    }
+
+    .nav-links {
+        display: none; /* Esconde a lista por padrão */
+        flex-direction: column;
+        position: absolute;
+        top: 70px; /* Ajuste conforme a altura da sua navbar */
+        right: 20px;
+        background: rgba(0, 0, 0, 0.9);
+        backdrop-filter: blur(10px); /* Mantém o efeito glassmorphism */
+        width: 200px;
+        border-radius: 15px;
+        padding: 20px;
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        z-index: 1000;
+    }
+
+    /* Classe que o JavaScript vai ativar */
+    .nav-links.active {
+        display: flex;
+    }
+
+    .nav-links li {
+        margin: 15px 0;
+        text-align: center;
     }
 }

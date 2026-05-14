@@ -8,16 +8,26 @@
 </head>
 <body>
 
-<header>
+    <header class="sticky">
     <nav class="navbar">
-        <div class="logo">Sobre mim</div>
-        <ul class="nav-links">
+        <div class="logo">
+            <img src="Imagens/logo.jpeg" alt="ICR Logo">
+        </div>
+        
+        <!-- Botão Hambúrguer -->
+        <button class="menu-toggle" id="mobile-menu">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+
+        <ul class="nav-links" id="nav-list">
             <li><a href="index.html">Home</a></li>
             <li><a href="sobre.html" class="active">Sobre</a></li>
             <li><a href="estudos.html">Estudos</a></li>
             <li><a href="decretos.html">Decretos</a></li>
-            <li><a href="Contactos.html">Contato</a></li>
             <li><a href="Noticias.html">Notícias</a></li>
+            <li><a href="Contactos.html">Contato</a></li>
         </ul>
     </nav>
 </header>

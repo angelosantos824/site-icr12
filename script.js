@@ -100,3 +100,20 @@ async function openModal(modalId) {
 function closeModal(modalId) {
     document.getElementById(modalId).style.display = 'none';
 }
+
+// Lógica do Menu Hambúrguer
+const mobileMenu = document.getElementById('mobile-menu');
+const navList = document.getElementById('nav-list');
+
+if (mobileMenu) {
+    mobileMenu.addEventListener('click', () => {
+        navList.classList.toggle('active');
+    });
+}
+
+// Fecha o menu ao clicar em qualquer link (opcional, melhora a UX)
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        navList.classList.remove('active');
+    });
+});
