@@ -6,7 +6,7 @@
 // 1. Configuração (Usa as chaves que aparecem no teu painel do Supabase)
 const supabaseUrl = 'https://qczmyahiitbtrmsoimxf.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFjem15YWhpaXRidHJtc29pbXhmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NjkyMTIsImV4cCI6MjA5NDM0NTIxMn0.tN8coprZC5mXV50t0IXPEIPl2ZGU8-t3Qygcp_mUAp8';
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
 // 2. Lógica do Formulário de Login
 const loginForm = document.getElementById('login-form');
@@ -18,10 +18,10 @@ if (loginForm) {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        // Tenta fazer o login
-        const { data, error } = await supabase.auth.signInWithPassword({
+        // Tenta fazer o login usando o supabaseClient que definimos no topo
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
             email: email,
-            password: password,
+            password: password
         });
 
         if (error) {
@@ -30,12 +30,12 @@ if (loginForm) {
             // Se o login funcionar, chamamos a função de verificação
             verificarNivelAcesso(data.user);
         }
-    });
+    }); // Fecho correto do event listener
 }
 
 // 3. Função de Redirecionamento (Admin vs Membro)
 async function verificarNivelAcesso(user) {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
         .from('profiles') // Nome da tabela que criaste no Supabase
         .select('cargo')
         .eq('id', user.id)
@@ -66,7 +66,7 @@ async function salvarNovoUsuario() {
     try {
         // Primeiro cria o acesso no Auth (precisaria de uma Edge Function ou lógica de Admin)
         // Por agora, vamos focar em inserir na tabela 'profiles'
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('profiles')
             .insert([
                 { nome: nome, cargo: cargoSelecionado, email: email }
@@ -82,7 +82,7 @@ async function salvarNovoUsuario() {
 }
 
 async function carregarListaUsuarios(usuarioLogado) {
-    let query = supabase.from('profiles').select('*');
+    let query = supabaseClient.from('profiles').select('*');
 
     // Regras de Visualização baseadas no cargo
     if (usuarioLogado.cargo === 'dozefull') {
