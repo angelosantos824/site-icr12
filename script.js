@@ -35,19 +35,24 @@ if (loginForm) {
 
 // 3. Função de Redirecionamento (Admin vs Membro)
 async function verificarNivelAcesso(user) {
-    const { data, error } = await supabaseClient
-        .from('profiles') // Nome da tabela que criaste no Supabase
-        .select('cargo')
+    const { data } = await supabaseClient
+        .from('profiles')
+        .select('cargo, nome, foto_url, codigo_m12')
         .eq('id', user.id)
         .single();
 
-    if (data && data.cargo === 'admin') {
-        window.location.href = 'admin.html'; // Se for admin, vai para o CRUD
-    } else {
-        window.location.href = 'index.html'; // Se for membro, volta para a Home
+    if (data) {
+        // Guarda os dados na sessão para a carteira usar
+        sessionStorage.setItem('usuarioLogado', JSON.stringify(data));
+
+        if (data.cargo === 'admin' || data.cargo === 'dozefull') {
+            window.location.href = 'admin.html';
+        } else {
+            // Todos os outros (Pastores, 144, Discípulos) vão para o painel personalizado
+            window.location.href = 'painel-discipulo.html';
+        }
     }
 }
-
 // --- Lógica de Criação de Usuário (CRUD) ---
 
 async function salvarNovoUsuario() {
@@ -228,3 +233,129 @@ document.querySelectorAll('.nav-links a').forEach(link => {
         navList.classList.remove('active');
     });
 });
+
+// ==================================================================
+//                 //    JSON - LEITURA E ESCRITA  //
+// ==================================================================
+// Exemplo de conversão entre JSON e objeto JavaScript
+async function carregarDadosDiscipulo() {
+    // 1. Pega o utilizador atual do Supabase Auth
+    const { data: { user } } = await supabaseClient.auth.getUser();
+
+    if (user) {
+        // 2. Procura na tabela 'profiles' os dados que vieram do CSV/Form
+        const { data: perfil, error } = await supabaseClient
+            .from('profiles')
+            .select('*')
+            .eq('email', user.email) // Liga o login ao e-mail da tabela do Google Form
+            .single();
+
+        if (perfil) {
+            // 3. Preenche o HTML com os dados da image_77d959.png
+            document.getElementById('user-nome').innerText = perfil.nome;
+            document.getElementById('cartao-nome').innerText = perfil.nome.toUpperCase();
+            document.getElementById('cartao-titulo').innerText = perfil.titulo;
+            document.getElementById('cartao-funcao').innerText = perfil.funcao;
+            document.getElementById('cartao-nasc').innerText = perfil.nascimento;
+            document.getElementById('cartao-rg').innerText = perfil.rg;
+            
+            // Se tiveres a coluna da foto
+            if(perfil.foto_url) {
+                document.getElementById('cartao-foto').src = perfil.foto_url;
+            }
+        }
+    }
+}
+
+// Executa ao carregar a página
+document.addEventListener('DOMContentLoaded', carregarDadosDiscipulo);
+
+// Dentro da tua função de carregar dados:
+if (perfil) {
+    document.getElementById('display-codigo-m12').innerText = perfil.codigo_m12;
+    // ... resto dos dados (Nome, Cargo, etc)
+}
+
+async function carregarDadosDoDiscipulo() {
+    // 1. Obtém o utilizador logado atualmente
+    const { data: { user } } = await supabaseClient.auth.getUser();
+
+    if (user) {
+        // 2. Procura na tabela os dados importados usando o E-mail como chave
+        const { data: perfil, error } = await supabaseClient
+            .from('profiles')
+            .select('*')
+            .eq('E-mail', user.email) 
+            .single();
+
+        if (perfil) {
+            // 3. Preenche os campos do Cartão (image_782bd4.jpg)
+            document.getElementById('cartao-nome').innerText = perfil.Nome;
+            document.getElementById('cartao-cargo').innerText = perfil.Cargo;
+            document.getElementById('cartao-funcao').innerText = perfil.funcao;
+            document.getElementById('cartao-codigo').innerText = perfil.codigo_m12;
+            document.getElementById('cartao-rg').innerText = perfil.RG;
+            document.getElementById('cartao-nasc').innerText = perfil.Data_de_nascimento;
+            
+            // Define a foto (se não tiver, usa uma padrão)
+            const fotoElemento = document.getElementById('cartao-foto');
+            fotoElemento.src = perfil.foto_url || 'img/default-user.png';
+        }
+    }
+}
+
+function previewFoto(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('cartao-foto').src = e.target.result;
+        }
+        reader.readAsDataURL(input.files[0]);
+        // Próximo passo será o upload para o Supabase Storage
+    }
+}
+
+// Esta função seria chamada logo após o usuário escolher a foto
+async function uploadFoto(file) {
+    const user = supabase.auth.user();
+    const fileName = `public/${user.id}.png`; // Nomeia a foto com o ID do usuário
+
+    // 1. Envia para o Storage
+    let { error: uploadError } = await supabase.storage
+        .from('fotos-discipulos')
+        .upload(fileName, file);
+
+    // 2. Se correu bem, pega a URL pública
+    const { publicURL } = supabase.storage
+        .from('fotos-discipulos')
+        .getPublicUrl(fileName);
+
+    // 3. Atualiza a tabela 'profiles' com o link da foto
+    await supabase
+        .from('profiles')
+        .update({ foto_url: publicURL })
+        .eq('id', user.id);
+}
+
+async function organizarDados() {
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (user) {
+        const { data: perfil } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('E-mail', user.email)
+            .single();
+
+        if (perfil) {
+            document.getElementById('display-nome').innerText = perfil.Nome;
+            document.getElementById('display-cargo').innerText = perfil.Cargo;
+            document.getElementById('display-funcao').innerText = perfil.funcao;
+            document.getElementById('display-cod').innerText = perfil.codigo_m12;
+            document.getElementById('display-rg').innerText = perfil.RG;
+        }
+    }
+}
+
+// Inicia a organização
+organizarDados();
