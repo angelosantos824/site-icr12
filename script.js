@@ -1,10 +1,25 @@
 document.addEventListener("DOMContentLoaded", () => {
+  configurarMenuMobile();
+  carregarLeituraAnual();
+  configurarLogin();
+  configurarContacto();
+  configurarModais();
+  carregarPainelDiscipulo();
+  configurarLogout();
+});
+
+/* =========================
+   MENU MOBILE
+========================= */
+
+function configurarMenuMobile() {
   const mobileMenu = document.getElementById("mobile-menu");
   const navList = document.getElementById("nav-list");
 
   if (mobileMenu && navList) {
     mobileMenu.addEventListener("click", () => {
       navList.classList.toggle("active");
+
       mobileMenu.setAttribute(
         "aria-expanded",
         navList.classList.contains("active")
@@ -17,74 +32,239 @@ document.addEventListener("DOMContentLoaded", () => {
       navList?.classList.remove("active");
     });
   });
-
-  carregarLeituraAnual();
-  configurarLogin();
-  configurarContacto();
-  configurarModais();
-  carregarPainelDiscipulo();
-});
+}
 
 /* =========================
-   LOGIN SUPABASE
+   SUPABASE
 ========================= */
 
 function getSupabase() {
   return window.supabaseClient || null;
 }
 
+/* =========================
+   LOGIN / CADASTRO
+========================= */
+
 function configurarLogin() {
   const loginForm = document.getElementById("login-form");
-  if (!loginForm) return;
+  const signupBtn = document.getElementById("signup-btn");
 
-  loginForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const client = getSupabase();
-
-    if (!client) {
-      alert("Supabase não configurado. Verifica o ficheiro supabase-config.js.");
-      return;
-    }
-
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
-
-    const { data, error } = await client.auth.signInWithPassword({
-      email,
-      password,
+  if (loginForm) {
+    loginForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      await entrarUsuario();
     });
+  }
 
-    if (error) {
-      alert("Erro ao entrar: " + error.message);
-      return;
-    }
+  if (signupBtn) {
+    signupBtn.addEventListener("click", async () => {
+      await criarUsuarioComPerfil();
+    });
+  }
+}
 
-    verificarNivelAcesso(data.user);
+async function entrarUsuario() {
+  const client = getSupabase();
+
+  if (!client) {
+    alert("Supabase não configurado.");
+    return;
+  }
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  const { data, error } = await client.auth.signInWithPassword({
+    email,
+    password,
   });
+
+  if (error) {
+    alert("Erro ao entrar: " + error.message);
+    return;
+  }
+
+  await verificarNivelAcesso(data.user);
+}
+
+async function criarUsuarioComPerfil() {
+  const client = getSupabase();
+
+  if (!client) {
+    alert("Supabase não configurado.");
+    return;
+  }
+
+  const nome = document.getElementById("nome")?.value.trim();
+  const email = document.getElementById("email")?.value.trim();
+  const password = document.getElementById("password")?.value;
+  const cargo = document.getElementById("cargo")?.value || "membro";
+  const codigo_m12 = document.getElementById("codigo_m12")?.value.trim();
+
+  if (!nome || !email || !password) {
+    alert("Preenche nome, email e senha.");
+    return;
+  }
+
+  const { data, error } = await client.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        nome,
+        cargo,
+        codigo_m12,
+      },
+    },
+  });
+
+  if (error) {
+    alert("Erro ao criar usuário: " + error.message);
+    return;
+  }
+
+  if (!data.user) {
+    alert("Usuário criado. Agora faça login.");
+    return;
+  }
+
+  const perfil = {
+    id: data.user.id,
+    nome,
+    email,
+    cargo,
+    codigo_m12,
+  };
+
+  const { error: profileError } = await client
+    .from("profiles")
+    .upsert(perfil, { onConflict: "id" });
+
+  if (profileError) {
+    alert("Usuário criado, mas erro ao salvar perfil: " + profileError.message);
+    return;
+  }
+
+  sessionStorage.setItem("usuarioLogado", JSON.stringify(perfil));
+
+  redirecionarPorCargo(cargo);
 }
 
 async function verificarNivelAcesso(user) {
   const client = getSupabase();
 
-  const { data, error } = await client
+  if (!client || !user) {
+    alert("Sessão inválida.");
+    return;
+  }
+
+  const { data: perfil, error } = await client
     .from("profiles")
     .select("id, nome, email, cargo, foto_url, codigo_m12")
     .eq("id", user.id)
     .single();
 
-  if (error || !data) {
-    alert("Perfil não encontrado na tabela profiles.");
+  if (error || !perfil) {
+    alert("Perfil não encontrado. Complete o cadastro ou fale com a administração.");
     return;
   }
 
-  sessionStorage.setItem("usuarioLogado", JSON.stringify(data));
+  sessionStorage.setItem("usuarioLogado", JSON.stringify(perfil));
 
-  if (data.cargo === "admin" || data.cargo === "dozefull") {
-    window.location.href = "admin.html";
-  } else {
-    window.location.href = "painel-discipulo.html";
+  redirecionarPorCargo(perfil.cargo);
+}
+
+function redirecionarPorCargo(cargo) {
+  switch (cargo) {
+    case "admin":
+    case "dozefull":
+      window.location.href = "admin.html";
+      break;
+
+    case "lider":
+      window.location.href = "painel-lider.html";
+      break;
+
+    case "discipulo":
+    case "membro":
+      window.location.href = "painel-discipulo.html";
+      break;
+
+    default:
+      window.location.href = "painel-discipulo.html";
+      break;
   }
+}
+
+/* =========================
+   PAINEL DO DISCÍPULO
+========================= */
+
+async function carregarPainelDiscipulo() {
+  const nomeEl = document.getElementById("cartao-nome");
+  const emailEl = document.getElementById("cartao-email");
+  const cargoEl = document.getElementById("cartao-cargo");
+  const codigoEl = document.getElementById("cartao-codigo");
+
+  if (!nomeEl || !cargoEl || !codigoEl) return;
+
+  const client = getSupabase();
+
+  if (!client) {
+    alert("Supabase não configurado.");
+    window.location.href = "login.html";
+    return;
+  }
+
+  const { data: authData } = await client.auth.getUser();
+
+  if (!authData.user) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  const { data: perfil, error } = await client
+    .from("profiles")
+    .select("nome, email, cargo, codigo_m12")
+    .eq("id", authData.user.id)
+    .single();
+
+  if (error || !perfil) {
+    alert("Perfil não encontrado.");
+    window.location.href = "login.html";
+    return;
+  }
+
+  nomeEl.textContent = perfil.nome || "Nome não informado";
+
+  if (emailEl) {
+    emailEl.textContent = perfil.email || authData.user.email;
+  }
+
+  cargoEl.textContent = perfil.cargo || "membro";
+  codigoEl.textContent = perfil.codigo_m12 || "---";
+}
+
+/* =========================
+   LOGOUT
+========================= */
+
+function configurarLogout() {
+  const logoutBtn = document.getElementById("logout-btn");
+
+  if (!logoutBtn) return;
+
+  logoutBtn.addEventListener("click", async () => {
+    const client = getSupabase();
+
+    if (client) {
+      await client.auth.signOut();
+    }
+
+    sessionStorage.removeItem("usuarioLogado");
+    window.location.href = "login.html";
+  });
 }
 
 /* =========================
@@ -93,10 +273,11 @@ async function verificarNivelAcesso(user) {
 
 function configurarContacto() {
   const form = document.getElementById("contact-form");
+
   if (!form) return;
 
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
     const client = getSupabase();
 
@@ -128,35 +309,12 @@ function configurarContacto() {
 }
 
 /* =========================
-   PAINEL DO DISCÍPULO
-========================= */
-
-function carregarPainelDiscipulo() {
-  const nomeEl = document.getElementById("cartao-nome");
-  const cargoEl = document.getElementById("cartao-cargo");
-  const codigoEl = document.getElementById("cartao-codigo");
-
-  if (!nomeEl || !cargoEl || !codigoEl) return;
-
-  const usuario = JSON.parse(sessionStorage.getItem("usuarioLogado"));
-
-  if (!usuario) {
-    window.location.href = "login.html";
-    return;
-  }
-
-  nomeEl.textContent = usuario.nome || "Nome do discípulo";
-  cargoEl.textContent = usuario.cargo || "Cargo / função";
-  codigoEl.textContent = usuario.codigo_m12 || "---";
-}
-
-/* =========================
-   MODAIS DE ESTUDOS / NOTÍCIAS / DECRETOS
+   MODAIS
 ========================= */
 
 function configurarModais() {
   document.querySelectorAll("[data-modal-target]").forEach((botao) => {
-    botao.addEventListener("click", async () => {
+    botao.addEventListener("click", () => {
       const modalId = botao.dataset.modalTarget;
       const ficheiro = botao.dataset.file;
       const titulo = botao.dataset.title || "Conteúdo";
@@ -174,6 +332,7 @@ function configurarModais() {
 
 async function abrirModal(modalId, titulo, ficheiro) {
   const modal = document.getElementById(modalId);
+
   if (!modal) return;
 
   const titleEl = modal.querySelector(".modal-title");
@@ -196,13 +355,16 @@ async function abrirModal(modalId, titulo, ficheiro) {
     const texto = await response.text();
     bodyEl.innerHTML = `<pre>${texto}</pre>`;
   } catch (error) {
-    bodyEl.innerHTML = `<p>Erro ao carregar conteúdo.</p>`;
+    bodyEl.innerHTML = "<p>Erro ao carregar conteúdo.</p>";
   }
 }
 
 function fecharModal(modalId) {
   const modal = document.getElementById(modalId);
-  if (modal) modal.classList.remove("active");
+
+  if (modal) {
+    modal.classList.remove("active");
+  }
 }
 
 /* =========================
@@ -246,8 +408,11 @@ function carregarLeituraAnual() {
   for (const livro of biblia) {
     if (acumulado + livro.c >= metaCapitulo) {
       const capitulo = metaCapitulo - acumulado;
+
       leitura = `${livro.n} ${capitulo}`;
-      linkLeitura.href = `https://www.bibliaonline.com.br/acf/${livro.slug}/${capitulo}`;
+      linkLeitura.href =
+        `https://www.bibliaonline.com.br/acf/${livro.slug}/${capitulo}`;
+
       break;
     }
 
@@ -257,6 +422,7 @@ function carregarLeituraAnual() {
   trechoBiblico.textContent = leitura;
 
   const dataAtual = document.getElementById("data-atual");
+
   if (dataAtual) {
     dataAtual.textContent = agora.toLocaleDateString("pt-PT", {
       day: "numeric",
@@ -270,57 +436,4 @@ function carregarLeituraAnual() {
 
   if (barra) barra.style.width = `${progresso}%`;
   if (texto) texto.textContent = `${progresso}% do ano concluído`;
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  const signupBtn = document.getElementById("signup-btn");
-  const googleBtn = document.getElementById("google-login");
-  const appleBtn = document.getElementById("apple-login");
-
-  if (signupBtn) {
-    signupBtn.addEventListener("click", criarUsuario);
-  }
-
-  if (googleBtn) {
-    googleBtn.addEventListener("click", () => loginSocial("google"));
-  }
-
-  if (appleBtn) {
-    appleBtn.addEventListener("click", () => loginSocial("apple"));
-  }
-});
-
-async function criarUsuario() {
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-
-  if (!email || !password) {
-    alert("Preenche o email e a senha para criar usuário.");
-    return;
-  }
-
-  const { data, error } = await window.supabaseClient.auth.signUp({
-    email,
-    password,
-  });
-
-  if (error) {
-    alert("Erro ao criar usuário: " + error.message);
-    return;
-  }
-
-  alert("Usuário criado. Verifica o email para confirmar a conta.");
-}
-
-async function loginSocial(provider) {
-  const { error } = await window.supabaseClient.auth.signInWithOAuth({
-    provider,
-    options: {
-      redirectTo: "https://angelosantos824.github.io/site-icr12/painel-discipulo.html",
-    },
-  });
-
-  if (error) {
-    alert("Erro no login: " + error.message);
-  }
 }

@@ -3,27 +3,19 @@
 
 <head>
   <meta charset="utf-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Painel do Discípulo | ICR12MPU</title>
 
   <link rel="stylesheet" href="style.css">
 
-  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="supabase-config.js"></script>
-
-  <!-- Script principal -->
+  <script src="supabase-config.js"></script>
   <script src="script.js" defer></script>
 </head>
 
 <body>
 
-  <!-- MAIN -->
   <main class="section container">
 
     <section class="page-card glass">
@@ -34,39 +26,35 @@
 
       <div class="cards-grid">
 
-        <!-- CARD DO DISCÍPULO -->
         <article class="card">
+          <h3 id="cartao-nome">Carregando...</h3>
 
-          <h3 id="cartao-nome">
-            Nome do discípulo
-          </h3>
-
-          <p id="cartao-cargo">
-            Cargo / função
+          <p>
+            <strong>Email:</strong>
+            <span id="cartao-email">---</span>
           </p>
 
           <p>
-            <strong>Código:</strong>
-
-            <span id="cartao-codigo">
-              ---
-            </span>
+            <strong>Cargo:</strong>
+            <span id="cartao-cargo">---</span>
           </p>
 
+          <p>
+            <strong>Código M12:</strong>
+            <span id="cartao-codigo">---</span>
+          </p>
         </article>
 
       </div>
 
-      <!-- BOTÃO -->
       <div class="actions">
+        <button class="btn secondary" type="button" id="logout-btn">
+          Sair
+        </button>
 
-        <a
-          class="btn secondary"
-          href="index.html"
-        >
+        <a class="btn secondary" href="index.html">
           Voltar ao site
         </a>
-
       </div>
 
     </section>

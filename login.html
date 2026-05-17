@@ -15,7 +15,6 @@
 
   <!-- SUPABASE -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <script src="supabase-config.js"></script>
 
   <!-- SCRIPT -->
@@ -24,9 +23,7 @@
 
 <body>
 
-  <!-- =====================================
-       HEADER
-  ====================================== -->
+  <!-- HEADER -->
   <header class="site-header">
 
     <nav class="navbar">
@@ -46,58 +43,51 @@
       </button>
 
       <ul class="nav-links" id="nav-list">
-
         <li><a href="index.html">Home</a></li>
-
         <li><a href="sobre.html">Sobre</a></li>
-
         <li><a href="estudos.html">Estudos</a></li>
-
         <li><a href="decretos.html">Decretos</a></li>
-
         <li><a href="Noticias.html">Notícias</a></li>
-
         <li><a href="Contactos.html">Contato</a></li>
-
-        <li>
-          <a class="active" href="login.html">
-            Área Restrita
-          </a>
-        </li>
-
+        <li><a class="active" href="login.html">Área Restrita</a></li>
       </ul>
 
     </nav>
 
   </header>
 
-  <!-- =====================================
-       MAIN
-  ====================================== -->
+  <!-- MAIN -->
   <main class="section container">
 
     <section class="form-card glass">
 
-      <p class="eyebrow">
-        Acesso interno
+      <p class="eyebrow">Acesso interno</p>
+
+      <h1>Área Restrita</h1>
+
+      <p>
+        Entre com sua conta ou crie um novo acesso preenchendo
+        todos os dados do perfil.
       </p>
 
-      <h1>
-        Área Restrita
-      </h1>
+      <form id="login-form" class="form-grid">
 
-      <!-- FORM -->
-      <form
-        id="login-form"
-        class="form-grid"
-      >
+        <!-- NOME -->
+        <div class="input-group">
+          <label for="nome">Nome completo</label>
+
+          <input
+            id="nome"
+            name="nome"
+            type="text"
+            autocomplete="name"
+            placeholder="Preencha apenas ao criar usuário"
+          >
+        </div>
 
         <!-- EMAIL -->
         <div class="input-group">
-
-          <label for="email">
-            Email
-          </label>
+          <label for="email">Email</label>
 
           <input
             id="email"
@@ -106,15 +96,11 @@
             autocomplete="email"
             required
           >
-
         </div>
 
         <!-- SENHA -->
         <div class="input-group">
-
-          <label for="password">
-            Senha
-          </label>
+          <label for="password">Senha</label>
 
           <input
             id="password"
@@ -123,14 +109,33 @@
             autocomplete="current-password"
             required
           >
+        </div>
 
+        <!-- TIPO DE ACESSO -->
+        <div class="input-group">
+          <label for="cargo">Tipo de acesso</label>
+
+          <select id="cargo" name="cargo">
+            <option value="membro">Membro</option>
+            <option value="discipulo">Discípulo</option>
+            <option value="lider">Líder</option>
+          </select>
+        </div>
+
+        <!-- CÓDIGO M12 -->
+        <div class="input-group">
+          <label for="codigo_m12">Código M12</label>
+
+          <input
+            id="codigo_m12"
+            name="codigo_m12"
+            type="text"
+            placeholder="Ex: M12-001"
+          >
         </div>
 
         <!-- BOTÃO LOGIN -->
-        <button
-          class="btn primary"
-          type="submit"
-        >
+        <button class="btn primary" type="submit">
           Entrar
         </button>
 
@@ -149,9 +154,7 @@
 
   </main>
 
-  <!-- =====================================
-       FOOTER
-  ====================================== -->
+  <!-- FOOTER -->
   <footer class="footer">
 
     <p>
