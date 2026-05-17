@@ -1,1 +1,211 @@
-<!doctype html><html lang="pt-PT"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Notícias | ICR12MPU</title><link rel="stylesheet" href="style.css"><script src="script.js" defer></script></head><body><header class="site-header"><nav class="navbar"><a class="brand" href="index.html"><span>ICR12MPU</span></a><button class="menu-toggle" id="mobile-menu" type="button" aria-controls="nav-list" aria-expanded="false">☰</button><ul class="nav-links" id="nav-list"><li><a href="index.html">Home</a></li><li><a href="sobre.html">Sobre</a></li><li><a href="estudos.html">Estudos</a></li><li><a href="decretos.html">Decretos</a></li><li><a class="active" href="Noticias.html">Notícias</a></li><li><a href="Contactos.html">Contato</a></li><li><a href="login.html">Área Restrita</a></li></ul></nav></header><main class="section container"><section class="page-card glass"><p class="eyebrow">Atualizações</p><h1>Notícias</h1><div class="cards-grid"><article class="card"><h3>Culto de Celebração</h3><p>Acompanhe os avisos e programações semanais da igreja.</p></article><article class="card"><h3>Expansão 2026</h3><p>Materiais do tema anual, decretos e plano de oração.</p></article></div></section></main><footer class="footer"><p>Copyright © 2026 IGREJA EM CÉLULA DA RESTAURAÇÃO.</p><p>Desenvolvido por Angelo Santos</p></footer></body></html>
+<!doctype html>
+<html lang="pt-PT">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Notícias | ICR12MPU</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+
+  <!-- Script principal -->
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <nav class="navbar">
+
+      <a class="brand" href="index.html">
+        <span>ICR12MPU</span>
+      </a>
+
+      <button
+        class="menu-toggle"
+        id="mobile-menu"
+        type="button"
+        aria-controls="nav-list"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
+
+      <ul class="nav-links" id="nav-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="sobre.html">Sobre</a></li>
+        <li><a href="estudos.html">Estudos</a></li>
+        <li><a href="decretos.html">Decretos</a></li>
+        <li><a class="active" href="Noticias.html">Notícias</a></li>
+        <li><a href="Contactos.html">Contato</a></li>
+        <li><a href="login.html">Área Restrita</a></li>
+      </ul>
+
+    </nav>
+  </header>
+
+  <!-- MAIN -->
+  <main class="section container">
+
+    <section class="page-card glass">
+
+      <p class="eyebrow">Atualizações</p>
+
+      <h1>Notícias</h1>
+
+      <p>
+        Acompanhe acontecimentos, avisos e temas de oração
+        com uma leitura cristã, equilibrada e responsável.
+      </p>
+
+      <div class="cards-grid">
+
+        <!-- NOTÍCIA 1 -->
+        <article class="card">
+          <p class="eyebrow">Igreja</p>
+
+          <h3>Culto de Celebração</h3>
+
+          <p>
+            A igreja segue com a programação semanal de culto,
+            oração, ensino da Palavra e comunhão entre famílias.
+          </p>
+
+          <p>
+            Este é um tempo de fortalecimento espiritual,
+            unidade e perseverança no propósito.
+          </p>
+        </article>
+
+        <!-- NOTÍCIA 2 -->
+        <article class="card">
+          <p class="eyebrow">Tema 2026</p>
+
+          <h3>Expansão 2026</h3>
+
+          <p>
+            O tema anual continua direcionando a igreja
+            para expansão, restauração familiar,
+            discipulado e crescimento espiritual.
+          </p>
+
+          <p>
+            A visão permanece firmada em Isaías 54:2-3:
+            ampliar a tenda, alongar as cordas
+            e firmar bem as estacas.
+          </p>
+        </article>
+
+        <!-- NOTÍCIA 3 -->
+        <article class="card">
+          <p class="eyebrow">Israel</p>
+
+          <h3>Ore pela paz de Jerusalém</h3>
+
+          <p>
+            Os acontecimentos recentes em Israel, Gaza
+            e na região continuam exigindo atenção,
+            prudência e intercessão.
+          </p>
+
+          <p>
+            Segundo a Reuters, ataques israelenses em Gaza
+            continuaram em maio de 2026, enquanto negociações
+            indiretas e esforços por estabilidade seguem frágeis.
+          </p>
+
+          <p>
+            Como igreja, permanecemos em oração por paz,
+            proteção de inocentes, consolo às famílias
+            e sabedoria para as autoridades.
+          </p>
+        </article>
+
+        <!-- NOTÍCIA 4 -->
+        <article class="card">
+          <p class="eyebrow">Oriente Médio</p>
+
+          <h3>Conflitos reforçam chamado à intercessão</h3>
+
+          <p>
+            A instabilidade no Oriente Médio voltou a ganhar força,
+            incluindo tensões envolvendo Israel, Gaza e sul do Líbano.
+          </p>
+
+          <p>
+            Em meio a notícias de ataques, perdas humanas
+            e negociações difíceis, a igreja é chamada
+            a responder com oração, discernimento e compaixão.
+          </p>
+        </article>
+
+        <!-- NOTÍCIA 5 -->
+        <article class="card">
+          <p class="eyebrow">Humanitário</p>
+
+          <h3>Famílias afetadas pela guerra precisam de oração</h3>
+
+          <p>
+            Civis, crianças, idosos e famílias deslocadas
+            continuam entre os mais afetados pelos conflitos.
+          </p>
+
+          <p>
+            Oramos para que haja socorro humanitário,
+            abertura de caminhos para ajuda,
+            cura emocional e proteção sobre os vulneráveis.
+          </p>
+        </article>
+
+        <!-- NOTÍCIA 6 -->
+        <article class="card">
+          <p class="eyebrow">Reflexão</p>
+
+          <h3>Vigiar, orar e discernir os tempos</h3>
+
+          <p>
+            Jesus ensinou Seus discípulos a vigiar e orar.
+            Em dias de notícias difíceis,
+            a igreja não deve caminhar em medo,
+            mas em fé, compaixão e discernimento.
+          </p>
+
+          <p>
+            A nossa resposta deve ser espiritual:
+            oração, unidade, amor ao próximo
+            e compromisso com a verdade.
+          </p>
+        </article>
+
+      </div>
+
+      <p class="footer-note">
+        “Orai pela paz de Jerusalém; prosperarão aqueles que te amam.”
+        — Salmos 122:6
+      </p>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>
+      Copyright © 2026
+      IGREJA EM CÉLULA DA RESTAURAÇÃO.
+    </p>
+
+    <p>
+      Desenvolvido por DOZEDEV.COM
+    </p>
+  </footer>
+
+</body>
+
+</html>

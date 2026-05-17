@@ -1,1 +1,147 @@
-<!doctype html><html lang="pt-PT"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Área Restrita | ICR12MPU</title><link rel="stylesheet" href="style.css"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script><script src="script.js" defer></script></head><body><header class="site-header"><nav class="navbar"><a class="brand" href="index.html"><span>ICR12MPU</span></a><button class="menu-toggle" id="mobile-menu" type="button" aria-controls="nav-list" aria-expanded="false">☰</button><ul class="nav-links" id="nav-list"><li><a href="index.html">Home</a></li><li><a href="sobre.html">Sobre</a></li><li><a href="estudos.html">Estudos</a></li><li><a href="decretos.html">Decretos</a></li><li><a href="Noticias.html">Notícias</a></li><li><a href="Contactos.html">Contato</a></li><li><a class="active" href="login.html">Área Restrita</a></li></ul></nav></header><main class="section container"><section class="form-card glass"><p class="eyebrow">Acesso interno</p><h1>Área Restrita</h1><form id="login-form" class="form-grid"><div class="input-group"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div><div class="input-group"><label for="password">Senha</label><input id="password" name="password" type="password" autocomplete="current-password" required></div><button class="btn primary" type="submit">Entrar</button></form></section></main><footer class="footer"><p>Copyright © 2026 IGREJA EM CÉLULA DA RESTAURAÇÃO.</p><p>Desenvolvido por Angelo Santos</p></footer></body></html>
+<!doctype html>
+<html lang="pt-PT">
+
+<head>
+  <meta charset="utf-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <title>Área Restrita | ICR12MPU</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+
+  <!-- Script principal -->
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+
+    <nav class="navbar">
+
+      <a class="brand" href="index.html">
+        <span>ICR12MPU</span>
+      </a>
+
+      <button
+        class="menu-toggle"
+        id="mobile-menu"
+        type="button"
+        aria-controls="nav-list"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
+
+      <ul class="nav-links" id="nav-list">
+
+        <li><a href="index.html">Home</a></li>
+
+        <li><a href="sobre.html">Sobre</a></li>
+
+        <li><a href="estudos.html">Estudos</a></li>
+
+        <li><a href="decretos.html">Decretos</a></li>
+
+        <li><a href="Noticias.html">Notícias</a></li>
+
+        <li><a href="Contactos.html">Contato</a></li>
+
+        <li>
+          <a class="active" href="login.html">
+            Área Restrita
+          </a>
+        </li>
+
+      </ul>
+
+    </nav>
+
+  </header>
+
+  <!-- MAIN -->
+  <main class="section container">
+
+    <section class="form-card glass">
+
+      <p class="eyebrow">Acesso interno</p>
+
+      <h1>Área Restrita</h1>
+
+      <!-- FORM LOGIN -->
+      <form id="login-form" class="form-grid">
+
+        <!-- EMAIL -->
+        <div class="input-group">
+
+          <label for="email">
+            Email
+          </label>
+
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            required
+          >
+
+        </div>
+
+        <!-- SENHA -->
+        <div class="input-group">
+
+          <label for="password">
+            Senha
+          </label>
+
+          <input
+            id="password"
+            name="password"
+            type="password"
+            autocomplete="current-password"
+            required
+          >
+
+        </div>
+
+        <!-- BOTÃO -->
+        <button
+          class="btn primary"
+          type="submit"
+        >
+          Entrar
+        </button>
+
+      </form>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+
+    <p>
+      Copyright © 2026
+      IGREJA EM CÉLULA DA RESTAURAÇÃO.
+    </p>
+
+    <p>
+      Desenvolvido por DOZEDEV.COM
+    </p>
+
+  </footer>
+
+</body>
+
+</html>

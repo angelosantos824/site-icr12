@@ -1,1 +1,143 @@
-<!doctype html><html lang="pt-PT"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Estudos | ICR12MPU</title><link rel="stylesheet" href="style.css"><script src="script.js" defer></script></head><body><header class="site-header"><nav class="navbar"><a class="brand" href="index.html"><span>ICR12MPU</span></a><button class="menu-toggle" id="mobile-menu" type="button" aria-controls="nav-list" aria-expanded="false">☰</button><ul class="nav-links" id="nav-list"><li><a href="index.html">Home</a></li><li><a href="sobre.html">Sobre</a></li><li><a class="active" href="estudos.html">Estudos</a></li><li><a href="decretos.html">Decretos</a></li><li><a href="Noticias.html">Notícias</a></li><li><a href="Contactos.html">Contato</a></li><li><a href="login.html">Área Restrita</a></li></ul></nav></header><main class="section container"><section class="page-card glass"><p class="eyebrow">Formação</p><h1>Estudos</h1><p>Materiais organizados para células, liderança e discipulado.</p><div class="cards-grid"><article class="card"><h3>Estudo dos 12</h3><p>Conteúdo para consolidação e crescimento no modelo dos 12.</p><a class="btn secondary" href="estudo12.txt">Abrir estudo</a></article><article class="card"><h3>Estudo de Célula</h3><p>Material de apoio para encontros semanais.</p><a class="btn secondary" href="estudocelula.txt">Abrir estudo</a></article></div></section></main><footer class="footer"><p>Copyright © 2026 IGREJA EM CÉLULA DA RESTAURAÇÃO.</p><p>Desenvolvido por Angelo Santos</p></footer></body></html>
+<!doctype html>
+<html lang="pt-PT">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Estudos | ICR12MPU</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+
+  <!-- Script principal -->
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+
+  <header class="site-header">
+    <nav class="navbar">
+
+      <a class="brand" href="index.html">
+        <span>ICR12MPU</span>
+      </a>
+
+      <button
+        class="menu-toggle"
+        id="mobile-menu"
+        type="button"
+        aria-controls="nav-list"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
+
+      <ul class="nav-links" id="nav-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="sobre.html">Sobre</a></li>
+        <li><a class="active" href="estudos.html">Estudos</a></li>
+        <li><a href="decretos.html">Decretos</a></li>
+        <li><a href="noticias.html">Notícias</a></li>
+        <li><a href="contactos.html">Contato</a></li>
+        <li><a href="login.html">Área Restrita</a></li>
+      </ul>
+
+    </nav>
+  </header>
+
+  <main class="section container">
+
+    <section class="page-card glass">
+
+      <p class="eyebrow">Formação</p>
+
+      <h1>Estudos</h1>
+
+      <p>
+        Materiais organizados para células,
+        liderança e discipulado.
+      </p>
+
+      <div class="cards-grid">
+
+        <article class="card">
+          <h3>Estudo dos 12</h3>
+
+          <p>
+            Conteúdo para consolidação e crescimento
+            no modelo dos 12.
+          </p>
+
+          <button
+            class="btn secondary"
+            type="button"
+            data-modal-target="modal-conteudo"
+            data-title="Estudo dos 12"
+            data-file="estudo12.txt"
+          >
+            Abrir estudo
+          </button>
+        </article>
+
+        <article class="card">
+          <h3>Estudo de Célula</h3>
+
+          <p>
+            Material de apoio para encontros semanais.
+          </p>
+
+          <button
+            class="btn secondary"
+            type="button"
+            data-modal-target="modal-conteudo"
+            data-title="Estudo de Célula"
+            data-file="estudocelula.txt"
+          >
+            Abrir estudo
+          </button>
+        </article>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <div class="modal" id="modal-conteudo" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true">
+
+      <div class="modal-header">
+        <h2 class="modal-title">Conteúdo</h2>
+
+        <button
+          class="modal-close"
+          type="button"
+          data-modal-close="modal-conteudo"
+        >
+          Fechar
+        </button>
+      </div>
+
+      <div class="modal-body"></div>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>
+      Copyright © 2026
+      IGREJA EM CÉLULA DA RESTAURAÇÃO.
+    </p>
+
+    <p>
+      Desenvolvido por DOZEDEV.COM
+    </p>
+  </footer>
+
+</body>
+
+</html>

@@ -1,114 +1,273 @@
-'use strict';
+document.addEventListener("DOMContentLoaded", () => {
+  const mobileMenu = document.getElementById("mobile-menu");
+  const navList = document.getElementById("nav-list");
 
-const SUPABASE_URL = 'https://qczmyahiitbtrmsoimxf.supabase.co';
-const SUPABASE_ANON_KEY = 'COLOQUE_AQUI_A_SUA_ANON_KEY_PUBLICA';
-const hasSupabase = window.supabase && SUPABASE_ANON_KEY && !SUPABASE_ANON_KEY.includes('COLOQUE_AQUI');
-const supabaseClient = hasSupabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+  if (mobileMenu && navList) {
+    mobileMenu.addEventListener("click", () => {
+      navList.classList.toggle("active");
+      mobileMenu.setAttribute(
+        "aria-expanded",
+        navList.classList.contains("active")
+      );
+    });
+  }
 
-function setupMobileMenu() {
-  const button = document.getElementById('mobile-menu');
-  const nav = document.getElementById('nav-list');
-  if (!button || !nav) return;
-  button.addEventListener('click', () => {
-    const isOpen = nav.classList.toggle('active');
-    button.setAttribute('aria-expanded', String(isOpen));
+  document.querySelectorAll(".nav-links a").forEach((link) => {
+    link.addEventListener("click", () => {
+      navList?.classList.remove("active");
+    });
   });
-  nav.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => {
-      nav.classList.remove('active');
-      button.setAttribute('aria-expanded', 'false');
+
+  carregarLeituraAnual();
+  configurarLogin();
+  configurarContacto();
+  configurarModais();
+  carregarPainelDiscipulo();
+});
+
+/* =========================
+   LOGIN SUPABASE
+========================= */
+
+function getSupabase() {
+  return window.supabaseClient || null;
+}
+
+function configurarLogin() {
+  const loginForm = document.getElementById("login-form");
+  if (!loginForm) return;
+
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const client = getSupabase();
+
+    if (!client) {
+      alert("Supabase não configurado. Verifica o ficheiro supabase-config.js.");
+      return;
+    }
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    const { data, error } = await client.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    if (error) {
+      alert("Erro ao entrar: " + error.message);
+      return;
+    }
+
+    verificarNivelAcesso(data.user);
+  });
+}
+
+async function verificarNivelAcesso(user) {
+  const client = getSupabase();
+
+  const { data, error } = await client
+    .from("profiles")
+    .select("id, nome, email, cargo, foto_url, codigo_m12")
+    .eq("id", user.id)
+    .single();
+
+  if (error || !data) {
+    alert("Perfil não encontrado na tabela profiles.");
+    return;
+  }
+
+  sessionStorage.setItem("usuarioLogado", JSON.stringify(data));
+
+  if (data.cargo === "admin" || data.cargo === "dozefull") {
+    window.location.href = "admin.html";
+  } else {
+    window.location.href = "painel-discipulo.html";
+  }
+}
+
+/* =========================
+   FORMULÁRIO DE CONTACTO
+========================= */
+
+function configurarContacto() {
+  const form = document.getElementById("contact-form");
+  if (!form) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const client = getSupabase();
+
+    if (!client) {
+      alert("Supabase não configurado.");
+      return;
+    }
+
+    const nome = document.getElementById("nome").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const mensagem = document.getElementById("mensagem").value.trim();
+
+    const { error } = await client.from("contactos").insert([
+      {
+        nome,
+        email,
+        mensagem,
+      },
+    ]);
+
+    if (error) {
+      alert("Erro ao enviar mensagem: " + error.message);
+      return;
+    }
+
+    alert("Mensagem enviada com sucesso!");
+    form.reset();
+  });
+}
+
+/* =========================
+   PAINEL DO DISCÍPULO
+========================= */
+
+function carregarPainelDiscipulo() {
+  const nomeEl = document.getElementById("cartao-nome");
+  const cargoEl = document.getElementById("cartao-cargo");
+  const codigoEl = document.getElementById("cartao-codigo");
+
+  if (!nomeEl || !cargoEl || !codigoEl) return;
+
+  const usuario = JSON.parse(sessionStorage.getItem("usuarioLogado"));
+
+  if (!usuario) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  nomeEl.textContent = usuario.nome || "Nome do discípulo";
+  cargoEl.textContent = usuario.cargo || "Cargo / função";
+  codigoEl.textContent = usuario.codigo_m12 || "---";
+}
+
+/* =========================
+   MODAIS DE ESTUDOS / NOTÍCIAS / DECRETOS
+========================= */
+
+function configurarModais() {
+  document.querySelectorAll("[data-modal-target]").forEach((botao) => {
+    botao.addEventListener("click", async () => {
+      const modalId = botao.dataset.modalTarget;
+      const ficheiro = botao.dataset.file;
+      const titulo = botao.dataset.title || "Conteúdo";
+
+      abrirModal(modalId, titulo, ficheiro);
+    });
+  });
+
+  document.querySelectorAll("[data-modal-close]").forEach((botao) => {
+    botao.addEventListener("click", () => {
+      fecharModal(botao.dataset.modalClose);
     });
   });
 }
 
-const bibleBooks = [
-  ['Gênesis', 50], ['Êxodo', 40], ['Levítico', 27], ['Números', 36], ['Deuteronômio', 34], ['Josué', 24], ['Juízes', 21], ['Rute', 4], ['1 Samuel', 31], ['2 Samuel', 24], ['1 Reis', 22], ['2 Reis', 25], ['1 Crônicas', 29], ['2 Crônicas', 36], ['Esdras', 10], ['Neemias', 13], ['Ester', 10], ['Jó', 42], ['Salmos', 150], ['Provérbios', 31], ['Eclesiastes', 12], ['Cantares', 8], ['Isaías', 66], ['Jeremias', 52], ['Lamentações', 5], ['Ezequiel', 48], ['Daniel', 12], ['Oséias', 14], ['Joel', 3], ['Amós', 9], ['Obadias', 1], ['Jonas', 4], ['Miquéias', 7], ['Naum', 3], ['Habacuque', 3], ['Sofonias', 3], ['Ageu', 2], ['Zacarias', 14], ['Malaquias', 4], ['Mateus', 28], ['Marcos', 16], ['Lucas', 24], ['João', 21], ['Atos', 28], ['Romanos', 16], ['1 Coríntios', 16], ['2 Coríntios', 13], ['Gálatas', 6], ['Efésios', 6], ['Filipenses', 4], ['Colossenses', 4], ['1 Tessalonicenses', 5], ['2 Tessalonicenses', 3], ['1 Timóteo', 6], ['2 Timóteo', 4], ['Tito', 3], ['Filemom', 1], ['Hebreus', 13], ['Tiago', 5], ['1 Pedro', 5], ['2 Pedro', 3], ['1 João', 5], ['2 João', 1], ['3 João', 1], ['Judas', 1], ['Apocalipse', 22]
-];
+async function abrirModal(modalId, titulo, ficheiro) {
+  const modal = document.getElementById(modalId);
+  if (!modal) return;
 
-function slugBibleBook(name) {
-  return name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, '-');
+  const titleEl = modal.querySelector(".modal-title");
+  const bodyEl = modal.querySelector(".modal-body");
+
+  if (titleEl) titleEl.textContent = titulo;
+  if (bodyEl) bodyEl.innerHTML = "<p>Carregando...</p>";
+
+  modal.classList.add("active");
+
+  if (!ficheiro || !bodyEl) return;
+
+  try {
+    const response = await fetch(ficheiro);
+
+    if (!response.ok) {
+      throw new Error("Ficheiro não encontrado.");
+    }
+
+    const texto = await response.text();
+    bodyEl.innerHTML = `<pre>${texto}</pre>`;
+  } catch (error) {
+    bodyEl.innerHTML = `<p>Erro ao carregar conteúdo.</p>`;
+  }
 }
 
-function setupDailyReading() {
-  const title = document.getElementById('trecho-biblico');
-  const link = document.getElementById('link-leitura');
-  const dateLabel = document.getElementById('data-atual');
-  const bar = document.getElementById('barra-concluida');
-  const percentText = document.getElementById('porcentagem-ano');
-  if (!title || !link) return;
+function fecharModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (modal) modal.classList.remove("active");
+}
 
-  const now = new Date();
-  const start = new Date(now.getFullYear(), 0, 0);
-  const dayOfYear = Math.floor((now - start) / 86400000);
-  const totalChapters = bibleBooks.reduce((sum, [, chapters]) => sum + chapters, 0);
-  const chapterTarget = Math.max(1, Math.ceil((dayOfYear / 365) * totalChapters));
+/* =========================
+   LEITURA ANUAL
+========================= */
 
-  let accumulated = 0;
-  for (const [book, chapters] of bibleBooks) {
-    if (accumulated + chapters >= chapterTarget) {
-      const startChapter = Math.max(1, chapterTarget - accumulated);
-      const endChapter = Math.min(chapters, startChapter + 2);
-      title.textContent = `${book} ${startChapter}-${endChapter}`;
-      link.href = `https://www.bibliaonline.com.br/acf/${slugBibleBook(book)}/${startChapter}`;
+function carregarLeituraAnual() {
+  const trechoBiblico = document.getElementById("trecho-biblico");
+  const linkLeitura = document.getElementById("link-leitura");
+
+  if (!trechoBiblico || !linkLeitura) return;
+
+  const agora = new Date();
+  const inicioAno = new Date(agora.getFullYear(), 0, 0);
+  const diaDoAno = Math.floor((agora - inicioAno) / 86400000);
+
+  const biblia = [
+    { n: "Gênesis", slug: "genesis", c: 50 },
+    { n: "Êxodo", slug: "exodo", c: 40 },
+    { n: "Levítico", slug: "levitico", c: 27 },
+    { n: "Números", slug: "numeros", c: 36 },
+    { n: "Deuteronômio", slug: "deuteronomio", c: 34 },
+    { n: "Josué", slug: "josue", c: 24 },
+    { n: "Juízes", slug: "juizes", c: 21 },
+    { n: "Rute", slug: "rute", c: 4 },
+    { n: "1 Samuel", slug: "1-samuel", c: 31 },
+    { n: "2 Samuel", slug: "2-samuel", c: 24 },
+    { n: "Salmos", slug: "salmos", c: 150 },
+    { n: "Mateus", slug: "mateus", c: 28 },
+    { n: "Marcos", slug: "marcos", c: 16 },
+    { n: "Lucas", slug: "lucas", c: 24 },
+    { n: "João", slug: "joao", c: 21 },
+    { n: "Romanos", slug: "romanos", c: 16 },
+    { n: "Apocalipse", slug: "apocalipse", c: 22 },
+  ];
+
+  let metaCapitulo = Math.max(1, Math.ceil(diaDoAno * 3.25));
+  let acumulado = 0;
+  let leitura = "Gênesis 1";
+
+  for (const livro of biblia) {
+    if (acumulado + livro.c >= metaCapitulo) {
+      const capitulo = metaCapitulo - acumulado;
+      leitura = `${livro.n} ${capitulo}`;
+      linkLeitura.href = `https://www.bibliaonline.com.br/acf/${livro.slug}/${capitulo}`;
       break;
     }
-    accumulated += chapters;
+
+    acumulado += livro.c;
   }
 
-  if (dateLabel) {
-    dateLabel.textContent = now.toLocaleDateString('pt-PT', { day: 'numeric', month: 'long' });
+  trechoBiblico.textContent = leitura;
+
+  const dataAtual = document.getElementById("data-atual");
+  if (dataAtual) {
+    dataAtual.textContent = agora.toLocaleDateString("pt-PT", {
+      day: "numeric",
+      month: "long",
+    });
   }
-  const progress = Math.min(100, Math.round((dayOfYear / 365) * 100));
-  if (bar) bar.style.width = `${progress}%`;
-  if (percentText) percentText.textContent = `${progress}% do ano concluído`;
+
+  const progresso = Math.round((diaDoAno / 365) * 100);
+  const barra = document.getElementById("barra-concluida");
+  const texto = document.getElementById("porcentagem-ano");
+
+  if (barra) barra.style.width = `${progresso}%`;
+  if (texto) texto.textContent = `${progresso}% do ano concluído`;
 }
-
-async function setupLogin() {
-  const form = document.getElementById('login-form');
-  if (!form) return;
-
-  form.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    if (!supabaseClient) {
-      alert('Supabase ainda não foi configurado. Adicione a ANON KEY pública no script.js.');
-      return;
-    }
-    const email = form.email.value.trim();
-    const password = form.password.value;
-    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-    if (error) {
-      alert(`Erro ao entrar: ${error.message}`);
-      return;
-    }
-    const { data: profile, error: profileError } = await supabaseClient
-      .from('profiles')
-      .select('id,nome,cargo,foto_url,codigo_m12')
-      .eq('id', data.user.id)
-      .single();
-    if (profileError || !profile) {
-      alert('Login feito, mas o perfil não foi encontrado.');
-      return;
-    }
-    sessionStorage.setItem('usuarioLogado', JSON.stringify(profile));
-    window.location.href = ['admin', 'dozefull'].includes(String(profile.cargo).toLowerCase()) ? 'admin.html' : 'painel-discipulo.html';
-  });
-}
-
-function setupContactForm() {
-  const form = document.getElementById('contact-form');
-  if (!form) return;
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const nome = encodeURIComponent(form.nome.value.trim());
-    const email = encodeURIComponent(form.email.value.trim());
-    const mensagem = encodeURIComponent(form.mensagem.value.trim());
-    window.location.href = `mailto:contatos@icr12mpu.com?subject=Mensagem de ${nome}&body=Email: ${email}%0D%0A%0D%0A${mensagem}`;
-  });
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  setupMobileMenu();
-  setupDailyReading();
-  setupLogin();
-  setupContactForm();
-});

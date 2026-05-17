@@ -1,1 +1,177 @@
-<!doctype html><html lang="pt-PT"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Contato | ICR12MPU</title><link rel="stylesheet" href="style.css"><script src="script.js" defer></script></head><body><header class="site-header"><nav class="navbar"><a class="brand" href="index.html"><span>ICR12MPU</span></a><button class="menu-toggle" id="mobile-menu" type="button" aria-controls="nav-list" aria-expanded="false">☰</button><ul class="nav-links" id="nav-list"><li><a href="index.html">Home</a></li><li><a href="sobre.html">Sobre</a></li><li><a href="estudos.html">Estudos</a></li><li><a href="decretos.html">Decretos</a></li><li><a href="Noticias.html">Notícias</a></li><li><a class="active" href="Contactos.html">Contato</a></li><li><a href="login.html">Área Restrita</a></li></ul></nav></header><main class="section container"><section class="form-card glass"><p class="eyebrow">Fale conosco</p><h1>Contato</h1><ul class="social-list"><li><a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">Facebook</a></li><li><a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram</a></li><li><a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">YouTube</a></li></ul><form id="contact-form" class="form-grid"><div class="input-group"><label for="nome">Nome</label><input id="nome" name="nome" autocomplete="name" required minlength="3"></div><div class="input-group"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div><div class="input-group"><label for="mensagem">Mensagem</label><textarea id="mensagem" name="mensagem" required minlength="10"></textarea></div><button class="btn primary" type="submit">Enviar Mensagem</button></form><div class="contato-direto"><p><strong>Email:</strong> contatos@icr12mpu.com</p><p><strong>GitHub:</strong> icr12mpu</p></div></section></main><footer class="footer"><p>Copyright © 2026 IGREJA EM CÉLULA DA RESTAURAÇÃO.</p><p>Desenvolvido por Angelo Santos</p></footer></body></html>
+<!doctype html>
+<html lang="pt-PT">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Contato | ICR12MPU</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+
+  <!-- Script principal -->
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+
+    <nav class="navbar">
+
+      <a class="brand" href="index.html">
+        <span>ICR12MPU</span>
+      </a>
+
+      <button
+        class="menu-toggle"
+        id="mobile-menu"
+        type="button"
+        aria-controls="nav-list"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
+
+      <ul class="nav-links" id="nav-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="sobre.html">Sobre</a></li>
+        <li><a href="estudos.html">Estudos</a></li>
+        <li><a href="decretos.html">Decretos</a></li>
+        <li><a href="Noticias.html">Notícias</a></li>
+        <li><a class="active" href="Contactos.html">Contato</a></li>
+        <li><a href="login.html">Área Restrita</a></li>
+      </ul>
+
+    </nav>
+
+  </header>
+
+  <!-- MAIN -->
+  <main class="section container">
+
+    <section class="form-card glass">
+
+      <p class="eyebrow">Fale conosco</p>
+
+      <h1>Contato</h1>
+
+      <!-- REDES SOCIAIS -->
+      <ul class="social-list">
+
+        <li>
+          <a
+            href="https://www.facebook.com/apostologregoriomenezes/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Facebook
+          </a>
+        </li>
+
+        <li>
+          <a
+            href="https://www.instagram.com/icr12oficial/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Instagram
+          </a>
+        </li>
+
+        <li>
+          <a
+            href="https://www.youtube.com/c/ICR12Oficial"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            YouTube
+          </a>
+        </li>
+
+      </ul>
+
+      <!-- FORMULÁRIO -->
+      <form id="contact-form" class="form-grid">
+
+        <div class="input-group">
+          <label for="nome">Nome</label>
+
+          <input
+            id="nome"
+            name="nome"
+            type="text"
+            autocomplete="name"
+            required
+            minlength="3"
+          >
+        </div>
+
+        <div class="input-group">
+          <label for="email">Email</label>
+
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            required
+          >
+        </div>
+
+        <div class="input-group">
+          <label for="mensagem">Mensagem</label>
+
+          <textarea
+            id="mensagem"
+            name="mensagem"
+            required
+            minlength="10"
+          ></textarea>
+        </div>
+
+        <button class="btn primary" type="submit">
+          Enviar Mensagem
+        </button>
+
+      </form>
+
+      <!-- CONTATO DIRETO -->
+    <div class="contato-direto">
+
+        <p>
+          <strong>Email:</strong>
+          contatos@icr12.com.br
+        </p>
+
+        <p>
+          <strong>Telefone:</strong>
+          (92) 99999-9999
+        </p>
+    </div>
+
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+
+    <p>
+      Copyright © 2026 IGREJA EM CÉLULA DA RESTAURAÇÃO.
+    </p>
+
+    <p>
+      Desenvolvido por DOZEDEV.COM
+    </p>
+
+  </footer>
+
+</body>
+
+</html>

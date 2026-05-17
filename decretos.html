@@ -1,1 +1,344 @@
-<!doctype html><html lang="pt-PT"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Decretos | ICR12MPU</title><link rel="stylesheet" href="style.css"><script src="script.js" defer></script></head><body><header class="site-header"><nav class="navbar"><a class="brand" href="index.html"><span>ICR12MPU</span></a><button class="menu-toggle" id="mobile-menu" type="button" aria-controls="nav-list" aria-expanded="false">☰</button><ul class="nav-links" id="nav-list"><li><a href="index.html">Home</a></li><li><a href="sobre.html">Sobre</a></li><li><a href="estudos.html">Estudos</a></li><li><a class="active" href="decretos.html">Decretos</a></li><li><a href="Noticias.html">Notícias</a></li><li><a href="Contactos.html">Contato</a></li><li><a href="login.html">Área Restrita</a></li></ul></nav></header><main class="section container"><section class="page-card glass"><p class="eyebrow">Tema 2026</p><h1>Decretos</h1><div class="cards-grid"><article class="card"><h3>Janeiro</h3><p>Declaramos um ano de expansão, unidade e avanço espiritual.</p></article><article class="card"><h3>Fevereiro</h3><p>Firmamos as estacas e avançamos no propósito da família.</p></article><article class="card"><h3>Março</h3><p>O território se amplia com fé, trabalho e obediência.</p></article></div></section></main><footer class="footer"><p>Copyright © 2026 IGREJA EM CÉLULA DA RESTAURAÇÃO.</p><p>Desenvolvido por Angelo Santos</p></footer></body></html>
+<!doctype html>
+<html lang="pt-PT">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Decretos | ICR12MPU</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-config.js"></script>
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+
+<header class="site-header">
+  <nav class="navbar">
+    <a class="brand" href="index.html">
+      <span>ICR12MPU</span>
+    </a>
+
+    <button
+      class="menu-toggle"
+      id="mobile-menu"
+      type="button"
+      aria-controls="nav-list"
+      aria-expanded="false"
+    >
+      ☰
+    </button>
+
+    <ul class="nav-links" id="nav-list">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="sobre.html">Sobre</a></li>
+      <li><a href="estudos.html">Estudos</a></li>
+      <li><a class="active" href="decretos.html">Decretos</a></li>
+      <li><a href="Noticias.html">Notícias</a></li>
+      <li><a href="Contactos.html">Contato</a></li>
+      <li><a href="login.html">Área Restrita</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="section container">
+
+  <section class="page-card glass">
+    <p class="eyebrow">Tema 2026</p>
+
+    <h1>Decretos Proféticos</h1>
+
+    <p>
+      Palavras proféticas liberadas para cada mês do ano.
+    </p>
+
+    <div class="cards-grid">
+
+      <article class="card">
+        <h3>Janeiro</h3>
+        <p>Proteção, aliança e firmeza espiritual.</p>
+        <button class="btn secondary" type="button" data-decreto="janeiro">Ler decreto</button>
+      </article>
+
+      <article class="card">
+        <h3>Fevereiro</h3>
+        <p>Separação, santidade e confiança no Senhor.</p>
+        <button class="btn secondary" type="button" data-decreto="fevereiro">Ler decreto</button>
+      </article>
+
+      <article class="card">
+        <h3>Março</h3>
+        <p>Misericórdia, livramento e poder de Deus.</p>
+        <button class="btn secondary" type="button" data-decreto="marco">Ler decreto</button>
+      </article>
+
+      <article class="card">
+        <h3>Abril</h3>
+        <p>Tempo de honra, fidelidade e milagres.</p>
+        <button class="btn secondary" type="button" data-decreto="abril">Ler decreto</button>
+      </article>
+
+      <article class="card">
+        <h3>Maio</h3>
+        <p>Esperança, restauração e livramento.</p>
+        <button class="btn secondary" type="button" data-decreto="maio">Ler decreto</button>
+      </article>
+
+      <article class="card">
+        <h3>Junho</h3>
+        <p>Deus fará diferença entre justo e ímpio.</p>
+        <button class="btn secondary" type="button" data-decreto="junho">Ler decreto</button>
+      </article>
+
+      <article class="card">
+        <h3>Julho</h3>
+        <p>Alegria, direção e o novo de Deus.</p>
+        <button class="btn secondary" type="button" data-decreto="julho">Ler decreto</button>
+      </article>
+
+      <article class="card">
+        <h3>Agosto</h3>
+        <p>Restituição, cura e caminhos endireitados.</p>
+        <button class="btn secondary" type="button" data-decreto="agosto">Ler decreto</button>
+      </article>
+
+      <article class="card">
+        <h3>Setembro</h3>
+        <p>O tempo do Senhor chegou.</p>
+        <button class="btn secondary" type="button" data-decreto="setembro">Ler decreto</button>
+      </article>
+
+      <article class="card">
+        <h3>Outubro</h3>
+        <p>Confiança, aliança e novo decreto.</p>
+        <button class="btn secondary" type="button" data-decreto="outubro">Ler decreto</button>
+      </article>
+
+      <article class="card">
+        <h3>Novembro</h3>
+        <p>Libertação, celebração e milagres.</p>
+        <button class="btn secondary" type="button" data-decreto="novembro">Ler decreto</button>
+      </article>
+
+      <article class="card">
+        <h3>Dezembro</h3>
+        <p>Prosperidade, honra e favor.</p>
+        <button class="btn secondary" type="button" data-decreto="dezembro">Ler decreto</button>
+      </article>
+
+    </div>
+  </section>
+
+</main>
+
+<div class="modal" id="modal-decreto">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-title" id="modal-titulo">Decreto</h2>
+
+      <button class="modal-close" type="button" id="fechar-modal">
+        Fechar
+      </button>
+    </div>
+
+    <div class="modal-body" id="modal-texto"></div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>Copyright © 2026 IGREJA EM CÉLULA DA RESTAURAÇÃO.</p>
+  <p>Desenvolvido por DOZEDEV.COM</p>
+</footer>
+
+<script>
+  const decretos = {
+    janeiro: {
+      titulo: "Decreto de Janeiro",
+      texto: `
+        <p>Não poderá o homem contender Comigo e prevalecer nem poderão os poderosos Me afrontarem e ficarem impunes.</p>
+        <p>Tenho uma aliança com Meus filhos, e os protegerei dos insensatos, e os livrarei dos homens maus.</p>
+        <p>Fiquem firmes e não neguem Meu Nome nem incredulizem Minhas palavras.</p>
+        <blockquote>“Mas, ó homem, quem és tu, que a Deus replicas? Porventura a coisa formada dirá ao que a formou: Por que me fizeste assim? Ou não tem o oleiro poder sobre o barro, para da mesma massa fazer um vaso para honra e outro para desonra?”</blockquote>
+        <p class="verse-reference">Romanos 9:20-21</p>
+      `
+    },
+
+    fevereiro: {
+      titulo: "Decreto de Fevereiro",
+      texto: `
+        <p>O homem acendeu sua maldade, até Meus filhos se renderam às mentiras de Belial.</p>
+        <p>Até quando estarão com os olhos abertos e os ouvidos atentos às Minhas palavras?</p>
+        <p>Não sou Eu quem mando o sol e a chuva para os justos e os ímpios?</p>
+        <p>Não sou Eu quem sustento a terra com Meu braço forte e seguro tudo apenas com os decretos da Minha boca?</p>
+        <p>Saiam do meio deles, não se unam ao conselho dos ímpios nem deem crédito àqueles que não podem lhes salvar.</p>
+        <p>Eu sou o Senhor e fora de Mim não há outro Salvador.</p>
+        <blockquote>“Eis que o Senhor DEUS virá com poder e seu braço dominará por ele; eis que o seu galardão está com ele, e o seu salário diante da sua face...”</blockquote>
+        <p class="verse-reference">Isaías 40:10-12</p>
+      `
+    },
+
+    marco: {
+      titulo: "Decreto de Março",
+      texto: `
+        <p>Tenho olhado com olhos de misericórdia para aqueles que verdadeiramente Me amam, aqueles que guardam os Meus preceitos e não se envergonham da Minha palavra.</p>
+        <p>Por eles darei livramento a esta Nação e mostrarei que Eu estou no comando.</p>
+        <p>Muitos Me buscarão, mas não Me encontrarão, porque a iniquidade subiu como mal cheiro às Minhas narinas.</p>
+        <p>Mas há um povo que tem acessado a Minha presença com louvores e adoração, que são como sacrifício agradável às Minhas narinas.</p>
+        <p>A esses derramarei do Meu poder e lhes mostrarei os Meus milagres.</p>
+        <blockquote>“Pois bem, tudo está escrito diante de mim: Não ficarei sem ação, mas lhe darei plena e total retribuição.”</blockquote>
+        <p class="verse-reference">Isaías 65:6</p>
+      `
+    },
+
+    abril: {
+      titulo: "Decreto de Abril",
+      texto: `
+        <p>Chegou o tempo!</p>
+        <p>As intercessões dos santos foram ouvidas, o homem mal e seus sátrapas foram punidos, e uma nova geração virá.</p>
+        <p>Geração de justos, daqueles que não abdicam da Minha presença nem escarnecem Meu Santo Nome.</p>
+        <p>O tempo da honra se manifestou, o tempo da fidelidade tem se aproximado.</p>
+        <p>Muitos serão visitados pelo Meu poder, e haverá um ciclo de milagres quando as intercessões forem atendidas.</p>
+        <blockquote>“Porventura é para vós tempo de habitardes nas vossas casas forradas, enquanto esta casa fica deserta?... Considerai os vossos caminhos.”</blockquote>
+        <p class="verse-reference">Ageu 1:4-7</p>
+      `
+    },
+
+    maio: {
+      titulo: "Decreto de Maio",
+      texto: `
+        <p>Não chorem, não chorem!</p>
+        <p>Essa dor que a Nação está passando é consequência dos seus pecados, por não ouvirem a Minha voz e desprezarem os Meus profetas.</p>
+        <p>Eu escreverei uma nova história e lhes darei novos livramentos.</p>
+        <p>As orações dos justos estão vivas diante de Mim, e as responderei de forma que todos dirão: “Só o Senhor e a Sua mão forte poderia fazer tal coisa”.</p>
+        <p>A boa mão do Todo-Poderoso fez todas essas coisas.</p>
+        <blockquote>“Reprime a tua voz de choro, e as lágrimas de teus olhos; porque há galardão para o teu trabalho...”</blockquote>
+        <p class="verse-reference">Jeremias 31:16-17</p>
+      `
+    },
+
+    junho: {
+      titulo: "Decreto de Junho",
+      texto: `
+        <p>Por que estão escandalizados?</p>
+        <p>Eu lhes disse que faria a diferença entre os que Me servem e aqueles que não Me servem.</p>
+        <p>Darei para Meus filhos o que prometi, mas quanto ao ímpio não Me lembrarei dele.</p>
+        <p>Tenho um povo, desprezado por homens, mas honrado por Mim.</p>
+        <p>Faço sim diferença entre os que Me servem e aqueles que Me desprezam, pois os que Me servem são Minhas joias.</p>
+        <blockquote>“E eles serão meus, diz o SENHOR dos Exércitos; naquele dia serão para mim joias...”</blockquote>
+        <p class="verse-reference">Malaquias 3:17-18</p>
+      `
+    },
+
+    julho: {
+      titulo: "Decreto de Julho",
+      texto: `
+        <p>Choro e pranto foram estancados, pois sou Eu quem estou construindo o novo.</p>
+        <p>Farei a eles surpresas, tenho os Meus escolhidos para este tempo.</p>
+        <p>Não foi como os homens quiseram, mas como Eu sei fazer.</p>
+        <p>Confiem em Mim, descansem a alma e se alegrem no espírito.</p>
+        <p>Estou fazendo uma coisa nova, e conduzirei em triunfo esta Nação.</p>
+        <blockquote>“O choro pode durar uma noite, mas a alegria vem pela manhã.”</blockquote>
+        <p class="verse-reference">Salmos 30:5-6</p>
+      `
+    },
+
+    agosto: {
+      titulo: "Decreto de Agosto",
+      texto: `
+        <p>Fixem os olhos em Mim, deixem de contemplar o homem que não lhes pode salvar.</p>
+        <p>Ponham a atenção em Mim, pois quem está fazendo o novo sou Eu.</p>
+        <p>Vou endireitar as veredas e aplainar os caminhos tortuosos.</p>
+        <p>Haverá tanta restituição que não se lembrarão do tempo da escassez.</p>
+        <p>Virei com um bálsamo para os sarar e não deixarei que os perversos subam aos lugares altos.</p>
+        <blockquote>“Olhai para mim, e sereis salvos, vós, todos os termos da terra; porque eu sou Deus, e não há outro.”</blockquote>
+        <p class="verse-reference">Isaías 45:22-25</p>
+      `
+    },
+
+    setembro: {
+      titulo: "Decreto de Setembro",
+      texto: `
+        <p>Meu tempo chegou!</p>
+        <p>Não como os homens quiseram, mas como Eu desejei.</p>
+        <p>Coloquei no coração do justo a Minha vontade e para com o íntegro revelei os Meus segredos.</p>
+        <p>Eu tenho uma aliança contigo, nação querida. Eu tenho um negócio contigo, povo Meu.</p>
+        <p>Farei algo que impressionará nações e esta Nação vai ensinar a muitas outras Nações como Eu faço o novo.</p>
+        <blockquote>“O grande dia do SENHOR está perto, sim, está perto, e se apressa muito...”</blockquote>
+        <p class="verse-reference">Sofonias 1:14</p>
+      `
+    },
+
+    outubro: {
+      titulo: "Decreto de Outubro",
+      texto: `
+        <p>Por que essa tensão? Para que tanto temor? Onde está a confiança?</p>
+        <p>Por um acaso esperam em homem?</p>
+        <p>Eu faço coisas novas e estabeleço o pacto entre Meus filhos e a Mim.</p>
+        <p>Tenho coisas com esta Nação e não lhes deixarei no opróbrio.</p>
+        <p>Estou assinando um novo decreto e honrarei a busca dos fiéis.</p>
+        <blockquote>“Os que confiam no SENHOR serão como o monte de Sião, que não se abala, mas permanece para sempre.”</blockquote>
+        <p class="verse-reference">Salmos 125:1-2</p>
+      `
+    },
+
+    novembro: {
+      titulo: "Decreto de Novembro",
+      texto: `
+        <p>Dancem, alegrem-se e festejem porque o tempo da libertação chegou.</p>
+        <p>Como não arrefeceram na fé nem colocaram à prova Minha palavra, Eu os honrei.</p>
+        <p>Fui Eu quem fez isso, não foi a mão humana.</p>
+        <p>Esta Nação é Minha, tenho um povo neste território, e eles sabem celebrar Meu Santo Nome.</p>
+        <p>Farei milagres que serão revelados e revelarei ainda Meus segredos.</p>
+        <blockquote>“Canta alegremente, ó filha de Sião; rejubila, ó Israel; regozija-te...”</blockquote>
+        <p class="verse-reference">Sofonias 3:14-15</p>
+      `
+    },
+
+    dezembro: {
+      titulo: "Decreto de Dezembro",
+      texto: `
+        <p>Como lhes prometi, Eu lhes prosperei e lhes dei livramentos.</p>
+        <p>Escrevi uma história inédita e lhes conduzi com Meu livro aberto.</p>
+        <p>Os passos estavam sendo guiados pelas Minhas palavras e a caminhada estava na Minha direção.</p>
+        <p>Farei ainda mais para honrar àqueles que são fiéis a Mim e à Minha palavra.</p>
+        <p>Sentar-se-ão à mesa dos grandes e conhecerão o Meu poder diante daqueles que lhes mostrarei.</p>
+        <blockquote>“Aos que me honram honrarei, porém os que me desprezam serão desprezados.”</blockquote>
+        <p class="verse-reference">1 Samuel 2:30-31</p>
+      `
+    }
+  };
+
+  const modal = document.getElementById("modal-decreto");
+  const modalTitulo = document.getElementById("modal-titulo");
+  const modalTexto = document.getElementById("modal-texto");
+  const fecharModal = document.getElementById("fechar-modal");
+
+  document.querySelectorAll("[data-decreto]").forEach((botao) => {
+    botao.addEventListener("click", () => {
+      const chave = botao.dataset.decreto;
+      const decreto = decretos[chave];
+
+      if (!decreto) return;
+
+      modalTitulo.textContent = decreto.titulo;
+      modalTexto.innerHTML = decreto.texto;
+      modal.classList.add("active");
+    });
+  });
+
+  fecharModal.addEventListener("click", () => {
+    modal.classList.remove("active");
+  });
+
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) {
+      modal.classList.remove("active");
+    }
+  });
+</script>
+
+</body>
+</html>
