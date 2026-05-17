@@ -72,20 +72,19 @@ function configurarLogin() {
       modoCadastro = !modoCadastro;
 
       if (signupFields) {
-        signupFields.style.display = modoCadastro ? "grid" : "none";
+        signupFields.style.display =
+          modoCadastro ? "grid" : "none";
       }
 
-      if (signupBtn) {
-        signupBtn.textContent = modoCadastro
+      signupBtn.textContent =
+        modoCadastro
           ? "Cancelar cadastro"
           : "Criar usuário";
-      }
 
-      if (loginBtn) {
-        loginBtn.textContent = modoCadastro
+      loginBtn.textContent =
+        modoCadastro
           ? "Finalizar cadastro"
           : "Entrar";
-      }
     });
   }
 }
@@ -98,13 +97,17 @@ async function entrarUsuario() {
     return;
   }
 
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
+  const email =
+    document.getElementById("email").value.trim();
 
-  const { data, error } = await client.auth.signInWithPassword({
-    email,
-    password,
-  });
+  const password =
+    document.getElementById("password").value;
+
+  const { data, error } =
+    await client.auth.signInWithPassword({
+      email,
+      password,
+    });
 
   if (error) {
     alert("Erro ao entrar: " + error.message);
@@ -122,57 +125,123 @@ async function criarUsuarioComPerfil() {
     return;
   }
 
-  const nome = document.getElementById("nome")?.value.trim();
-  const email = document.getElementById("email")?.value.trim();
-  const password = document.getElementById("password")?.value;
-  const cargo = document.getElementById("cargo")?.value || "membro";
-  const codigo_m12 = document.getElementById("codigo_m12")?.value.trim();
+  const nome =
+    document.getElementById("nome")?.value.trim();
+
+  const email =
+    document.getElementById("email")?.value.trim();
+
+  const password =
+    document.getElementById("password")?.value;
+
+  const cargo =
+    document.getElementById("cargo")?.value || "membro";
 
   if (!nome || !email || !password) {
     alert("Preenche nome, email e senha.");
     return;
   }
 
-  const { data, error } = await client.auth.signUp({
-    email,
-    password,
-    options: {
-      data: {
-        nome,
-        cargo,
-        codigo_m12,
+  /* =========================
+     GERAR CÓDIGO M12
+  ========================= */
+
+  const { data: ultimoCodigo } =
+    await client
+      .from("profiles")
+      .select("codigo_m12")
+      .not("codigo_m12", "is", null)
+      .order("created_at", {
+        ascending: false
+      })
+      .limit(1);
+
+  let novoCodigo = "M12-004";
+
+  if (
+    ultimoCodigo &&
+    ultimoCodigo.length > 0
+  ) {
+
+    const ultimo =
+      ultimoCodigo[0].codigo_m12;
+
+    const numero =
+      parseInt(
+        ultimo.replace("M12-", "")
+      );
+
+    const proximo = numero + 1;
+
+    novoCodigo =
+      `M12-${String(proximo).padStart(3, "0")}`;
+  }
+
+  /* =========================
+     CRIA AUTH
+  ========================= */
+
+  const { data, error } =
+    await client.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          nome,
+          cargo,
+        },
       },
-    },
-  });
+    });
 
   if (error) {
-    alert("Erro ao criar usuário: " + error.message);
+    alert(
+      "Erro ao criar usuário: " +
+      error.message
+    );
+
     return;
   }
 
   if (!data.user) {
-    alert("Usuário criado. Agora faça login.");
+    alert(
+      "Usuário criado. Agora faça login."
+    );
+
     return;
   }
+
+  /* =========================
+     PERFIL
+  ========================= */
 
   const perfil = {
     id: data.user.id,
     nome,
     email,
     cargo,
-    codigo_m12,
+    codigo_m12: novoCodigo,
   };
 
-  const { error: profileError } = await client
-    .from("profiles")
-    .upsert(perfil, { onConflict: "id" });
+  const { error: profileError } =
+    await client
+      .from("profiles")
+      .upsert(perfil, {
+        onConflict: "id",
+      });
 
   if (profileError) {
-    alert("Usuário criado, mas erro ao salvar perfil: " + profileError.message);
+    alert(
+      "Erro ao salvar perfil: " +
+      profileError.message
+    );
+
     return;
   }
 
-  sessionStorage.setItem("usuarioLogado", JSON.stringify(perfil));
+  sessionStorage.setItem(
+    "usuarioLogado",
+    JSON.stringify(perfil)
+  );
 
   redirecionarPorCargo(cargo);
 }
@@ -185,91 +254,126 @@ async function verificarNivelAcesso(user) {
     return;
   }
 
-  const { data: perfil, error } = await client
-    .from("profiles")
-    .select("id, nome, email, cargo, foto_url, codigo_m12")
-    .eq("id", user.id)
-    .single();
+  const { data: perfil, error } =
+    await client
+      .from("profiles")
+      .select(`
+        id,
+        nome,
+        email,
+        cargo,
+        foto_url,
+        codigo_m12
+      `)
+      .eq("id", user.id)
+      .single();
 
   if (error || !perfil) {
-    alert("Perfil não encontrado. Complete o cadastro ou fale com a administração.");
+    alert("Perfil não encontrado.");
     return;
   }
 
-  sessionStorage.setItem("usuarioLogado", JSON.stringify(perfil));
+  sessionStorage.setItem(
+    "usuarioLogado",
+    JSON.stringify(perfil)
+  );
 
   redirecionarPorCargo(perfil.cargo);
 }
 
 function redirecionarPorCargo(cargo) {
+
   switch (cargo) {
+
     case "admin":
     case "dozefull":
-      window.location.href = "admin.html";
+      window.location.href =
+        "admin.html";
       break;
 
     case "lider":
-      window.location.href = "painel-lider.html";
-      break;
-
-    case "discipulo":
-    case "membro":
-      window.location.href = "painel-discipulo.html";
+      window.location.href =
+        "painel-lider.html";
       break;
 
     default:
-      window.location.href = "painel-discipulo.html";
+      window.location.href =
+        "painel-discipulo.html";
       break;
   }
 }
 
 /* =========================
-   PAINEL DO DISCÍPULO
+   PAINEL DISCÍPULO
 ========================= */
 
 async function carregarPainelDiscipulo() {
-  const nomeEl = document.getElementById("cartao-nome");
-  const emailEl = document.getElementById("cartao-email");
-  const cargoEl = document.getElementById("cartao-cargo");
-  const codigoEl = document.getElementById("cartao-codigo");
 
-  if (!nomeEl || !cargoEl || !codigoEl) return;
+  const nomeEl =
+    document.getElementById("cartao-nome");
+
+  const emailEl =
+    document.getElementById("cartao-email");
+
+  const cargoEl =
+    document.getElementById("cartao-cargo");
+
+  const codigoEl =
+    document.getElementById("cartao-codigo");
+
+  if (
+    !nomeEl ||
+    !cargoEl ||
+    !codigoEl
+  ) return;
 
   const client = getSupabase();
 
   if (!client) {
-    alert("Supabase não configurado.");
-    window.location.href = "login.html";
+    window.location.href =
+      "login.html";
     return;
   }
 
-  const { data: authData } = await client.auth.getUser();
+  const { data: authData } =
+    await client.auth.getUser();
 
   if (!authData.user) {
-    window.location.href = "login.html";
+    window.location.href =
+      "login.html";
     return;
   }
 
-  const { data: perfil, error } = await client
-    .from("profiles")
-    .select("nome, email, cargo, codigo_m12")
-    .eq("id", authData.user.id)
-    .single();
+  const { data: perfil, error } =
+    await client
+      .from("profiles")
+      .select(`
+        nome,
+        email,
+        cargo,
+        codigo_m12
+      `)
+      .eq("id", authData.user.id)
+      .single();
 
   if (error || !perfil) {
     alert("Perfil não encontrado.");
-    window.location.href = "login.html";
     return;
   }
 
-  nomeEl.textContent = perfil.nome || "Nome não informado";
+  nomeEl.textContent =
+    perfil.nome || "Sem nome";
 
   if (emailEl) {
-    emailEl.textContent = perfil.email || authData.user.email;
+    emailEl.textContent =
+      perfil.email || "---";
   }
 
-  cargoEl.textContent = perfil.cargo || "membro";
-  codigoEl.textContent = perfil.codigo_m12 || "---";
+  cargoEl.textContent =
+    perfil.cargo || "membro";
+
+  codigoEl.textContent =
+    perfil.codigo_m12 || "---";
 }
 
 /* =========================
@@ -277,61 +381,94 @@ async function carregarPainelDiscipulo() {
 ========================= */
 
 function configurarLogout() {
-  const logoutBtn = document.getElementById("logout-btn");
+
+  const logoutBtn =
+    document.getElementById("logout-btn");
 
   if (!logoutBtn) return;
 
-  logoutBtn.addEventListener("click", async () => {
-    const client = getSupabase();
+  logoutBtn.addEventListener(
+    "click",
+    async () => {
 
-    if (client) {
-      await client.auth.signOut();
+      const client = getSupabase();
+
+      if (client) {
+        await client.auth.signOut();
+      }
+
+      sessionStorage.removeItem(
+        "usuarioLogado"
+      );
+
+      window.location.href =
+        "login.html";
     }
-
-    sessionStorage.removeItem("usuarioLogado");
-    window.location.href = "login.html";
-  });
+  );
 }
 
 /* =========================
-   FORMULÁRIO DE CONTACTO
+   CONTACTO
 ========================= */
 
 function configurarContacto() {
-  const form = document.getElementById("contact-form");
+
+  const form =
+    document.getElementById(
+      "contact-form"
+    );
 
   if (!form) return;
 
-  form.addEventListener("submit", async (event) => {
-    event.preventDefault();
+  form.addEventListener(
+    "submit",
+    async (event) => {
 
-    const client = getSupabase();
+      event.preventDefault();
 
-    if (!client) {
-      alert("Supabase não configurado.");
-      return;
+      const client = getSupabase();
+
+      if (!client) {
+        alert("Supabase não configurado.");
+        return;
+      }
+
+      const nome =
+        document.getElementById("nome")
+        .value.trim();
+
+      const email =
+        document.getElementById("email")
+        .value.trim();
+
+      const mensagem =
+        document.getElementById("mensagem")
+        .value.trim();
+
+      const { error } =
+        await client
+          .from("contactos")
+          .insert([
+            {
+              nome,
+              email,
+              mensagem,
+            },
+          ]);
+
+      if (error) {
+        alert(
+          "Erro ao enviar mensagem: " +
+          error.message
+        );
+
+        return;
+      }
+
+      alert("Mensagem enviada!");
+      form.reset();
     }
-
-    const nome = document.getElementById("nome").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const mensagem = document.getElementById("mensagem").value.trim();
-
-    const { error } = await client.from("contactos").insert([
-      {
-        nome,
-        email,
-        mensagem,
-      },
-    ]);
-
-    if (error) {
-      alert("Erro ao enviar mensagem: " + error.message);
-      return;
-    }
-
-    alert("Mensagem enviada com sucesso!");
-    form.reset();
-  });
+  );
 }
 
 /* =========================
@@ -339,54 +476,108 @@ function configurarContacto() {
 ========================= */
 
 function configurarModais() {
-  document.querySelectorAll("[data-modal-target]").forEach((botao) => {
-    botao.addEventListener("click", () => {
-      const modalId = botao.dataset.modalTarget;
-      const ficheiro = botao.dataset.file;
-      const titulo = botao.dataset.title || "Conteúdo";
 
-      abrirModal(modalId, titulo, ficheiro);
-    });
-  });
+  document
+    .querySelectorAll("[data-modal-target]")
+    .forEach((botao) => {
 
-  document.querySelectorAll("[data-modal-close]").forEach((botao) => {
-    botao.addEventListener("click", () => {
-      fecharModal(botao.dataset.modalClose);
+      botao.addEventListener(
+        "click",
+        () => {
+
+          const modalId =
+            botao.dataset.modalTarget;
+
+          const ficheiro =
+            botao.dataset.file;
+
+          const titulo =
+            botao.dataset.title ||
+            "Conteúdo";
+
+          abrirModal(
+            modalId,
+            titulo,
+            ficheiro
+          );
+        }
+      );
     });
-  });
+
+  document
+    .querySelectorAll("[data-modal-close]")
+    .forEach((botao) => {
+
+      botao.addEventListener(
+        "click",
+        () => {
+
+          fecharModal(
+            botao.dataset.modalClose
+          );
+        }
+      );
+    });
 }
 
-async function abrirModal(modalId, titulo, ficheiro) {
-  const modal = document.getElementById(modalId);
+async function abrirModal(
+  modalId,
+  titulo,
+  ficheiro
+) {
+
+  const modal =
+    document.getElementById(modalId);
 
   if (!modal) return;
 
-  const titleEl = modal.querySelector(".modal-title");
-  const bodyEl = modal.querySelector(".modal-body");
+  const titleEl =
+    modal.querySelector(".modal-title");
 
-  if (titleEl) titleEl.textContent = titulo;
-  if (bodyEl) bodyEl.innerHTML = "<p>Carregando...</p>";
+  const bodyEl =
+    modal.querySelector(".modal-body");
+
+  if (titleEl) {
+    titleEl.textContent = titulo;
+  }
+
+  if (bodyEl) {
+    bodyEl.innerHTML =
+      "<p>Carregando...</p>";
+  }
 
   modal.classList.add("active");
 
   if (!ficheiro || !bodyEl) return;
 
   try {
-    const response = await fetch(ficheiro);
+
+    const response =
+      await fetch(ficheiro);
 
     if (!response.ok) {
-      throw new Error("Ficheiro não encontrado.");
+      throw new Error(
+        "Ficheiro não encontrado."
+      );
     }
 
-    const texto = await response.text();
-    bodyEl.innerHTML = `<pre>${texto}</pre>`;
-  } catch (error) {
-    bodyEl.innerHTML = "<p>Erro ao carregar conteúdo.</p>";
+    const texto =
+      await response.text();
+
+    bodyEl.innerHTML =
+      `<pre>${texto}</pre>`;
+
+  } catch {
+
+    bodyEl.innerHTML =
+      "<p>Erro ao carregar conteúdo.</p>";
   }
 }
 
 function fecharModal(modalId) {
-  const modal = document.getElementById(modalId);
+
+  const modal =
+    document.getElementById(modalId);
 
   if (modal) {
     modal.classList.remove("active");
@@ -398,104 +589,92 @@ function fecharModal(modalId) {
 ========================= */
 
 function carregarLeituraAnual() {
-  const trechoBiblico = document.getElementById("trecho-biblico");
-  const linkLeitura = document.getElementById("link-leitura");
 
-  if (!trechoBiblico || !linkLeitura) return;
+  const trechoBiblico =
+    document.getElementById(
+      "trecho-biblico"
+    );
+
+  const linkLeitura =
+    document.getElementById(
+      "link-leitura"
+    );
+
+  if (
+    !trechoBiblico ||
+    !linkLeitura
+  ) return;
 
   const agora = new Date();
-  const inicioAno = new Date(agora.getFullYear(), 0, 0);
-  const diaDoAno = Math.floor((agora - inicioAno) / 86400000);
 
-  const biblia = [
-    { n: "Gênesis", slug: "genesis", c: 50 },
-    { n: "Êxodo", slug: "exodo", c: 40 },
-    { n: "Levítico", slug: "levitico", c: 27 },
-    { n: "Números", slug: "numeros", c: 36 },
-    { n: "Deuteronômio", slug: "deuteronomio", c: 34 },
-    { n: "Josué", slug: "josue", c: 24 },
-    { n: "Juízes", slug: "juizes", c: 21 },
-    { n: "Rute", slug: "rute", c: 4 },
-    { n: "1 Samuel", slug: "1-samuel", c: 31 },
-    { n: "2 Samuel", slug: "2-samuel", c: 24 },
-    { n: "Salmos", slug: "salmos", c: 150 },
-    { n: "Mateus", slug: "mateus", c: 28 },
-    { n: "Marcos", slug: "marcos", c: 16 },
-    { n: "Lucas", slug: "lucas", c: 24 },
-    { n: "João", slug: "joao", c: 21 },
-    { n: "Romanos", slug: "romanos", c: 16 },
-    { n: "Apocalipse", slug: "apocalipse", c: 22 },
-  ];
+  const inicioAno =
+    new Date(
+      agora.getFullYear(),
+      0,
+      0
+    );
 
-  let metaCapitulo = Math.max(1, Math.ceil(diaDoAno * 3.25));
-  let acumulado = 0;
-  let leitura = "Gênesis 1";
+  const diaDoAno =
+    Math.floor(
+      (agora - inicioAno) / 86400000
+    );
 
-  for (const livro of biblia) {
-    if (acumulado + livro.c >= metaCapitulo) {
-      const capitulo = metaCapitulo - acumulado;
+  trechoBiblico.textContent =
+    `Leitura do dia ${diaDoAno}`;
 
-      leitura = `${livro.n} ${capitulo}`;
-      linkLeitura.href =
-        `https://www.bibliaonline.com.br/acf/${livro.slug}/${capitulo}`;
-
-      break;
-    }
-
-    acumulado += livro.c;
-  }
-
-  trechoBiblico.textContent = leitura;
-
-  const dataAtual = document.getElementById("data-atual");
-
-  if (dataAtual) {
-    dataAtual.textContent = agora.toLocaleDateString("pt-PT", {
-      day: "numeric",
-      month: "long",
-    });
-  }
-
-  const progresso = Math.round((diaDoAno / 365) * 100);
-  const barra = document.getElementById("barra-concluida");
-  const texto = document.getElementById("porcentagem-ano");
-
-  if (barra) barra.style.width = `${progresso}%`;
-  if (texto) texto.textContent = `${progresso}% do ano concluído`;
+  linkLeitura.href =
+    "https://www.bibliaonline.com.br";
 }
-
 
 /* =========================
    ADMIN TABS
 ========================= */
 
 function configurarAdminTabs() {
-  const tabs = document.querySelectorAll("[data-admin-tab]");
-  const sections = document.querySelectorAll(".admin-section");
 
-  if (!tabs.length || !sections.length) return;
+  const tabs =
+    document.querySelectorAll(
+      "[data-admin-tab]"
+    );
+
+  const sections =
+    document.querySelectorAll(
+      ".admin-section"
+    );
+
+  if (
+    !tabs.length ||
+    !sections.length
+  ) return;
 
   tabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      const target = tab.dataset.adminTab;
 
-      tabs.forEach((item) => {
-        item.classList.remove("active");
-      });
+    tab.addEventListener(
+      "click",
+      () => {
 
-      sections.forEach((section) => {
-        section.classList.remove("active");
-      });
+        const target =
+          tab.dataset.adminTab;
 
-      tab.classList.add("active");
+        tabs.forEach((item) => {
+          item.classList.remove("active");
+        });
 
-      const activeSection = document.getElementById(
-        `admin-${target}`
-      );
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
 
-      if (activeSection) {
-        activeSection.classList.add("active");
+        tab.classList.add("active");
+
+        const activeSection =
+          document.getElementById(
+            `admin-${target}`
+          );
+
+        if (activeSection) {
+          activeSection.classList.add("active");
+        }
       }
-    });
+    );
   });
 }
