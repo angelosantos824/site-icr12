@@ -271,3 +271,56 @@ function carregarLeituraAnual() {
   if (barra) barra.style.width = `${progresso}%`;
   if (texto) texto.textContent = `${progresso}% do ano concluído`;
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  const signupBtn = document.getElementById("signup-btn");
+  const googleBtn = document.getElementById("google-login");
+  const appleBtn = document.getElementById("apple-login");
+
+  if (signupBtn) {
+    signupBtn.addEventListener("click", criarUsuario);
+  }
+
+  if (googleBtn) {
+    googleBtn.addEventListener("click", () => loginSocial("google"));
+  }
+
+  if (appleBtn) {
+    appleBtn.addEventListener("click", () => loginSocial("apple"));
+  }
+});
+
+async function criarUsuario() {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  if (!email || !password) {
+    alert("Preenche o email e a senha para criar usuário.");
+    return;
+  }
+
+  const { data, error } = await window.supabaseClient.auth.signUp({
+    email,
+    password,
+  });
+
+  if (error) {
+    alert("Erro ao criar usuário: " + error.message);
+    return;
+  }
+
+  alert("Usuário criado. Verifica o email para confirmar a conta.");
+}
+
+async function loginSocial(provider) {
+  const { error } = await window.supabaseClient.auth.signInWithOAuth({
+    provider,
+    options: {
+      redirectTo: "https://angelosantos824.github.io/site-icr12/painel-discipulo.html",
+    },
+  });
+
+  if (error) {
+    alert("Erro no login: " + error.message);
+  }
+}
