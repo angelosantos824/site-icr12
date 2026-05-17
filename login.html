@@ -3,29 +3,20 @@
 
 <head>
   <meta charset="utf-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1"
-  >
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Área Restrita | ICR12MPU</title>
 
   <link rel="stylesheet" href="style.css">
 
-  <!-- SUPABASE -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="supabase-config.js"></script>
-
-  <!-- SCRIPT -->
   <script src="script.js" defer></script>
 </head>
 
 <body>
 
-  <!-- HEADER -->
   <header class="site-header">
-
     <nav class="navbar">
 
       <a class="brand" href="index.html">
@@ -53,10 +44,8 @@
       </ul>
 
     </nav>
-
   </header>
 
-  <!-- MAIN -->
   <main class="section container">
 
     <section class="form-card glass">
@@ -66,29 +55,46 @@
       <h1>Área Restrita</h1>
 
       <p>
-        Entre com sua conta ou crie um novo acesso preenchendo
-        todos os dados do perfil.
+        Entre com sua conta ou crie um novo acesso.
       </p>
 
       <form id="login-form" class="form-grid">
 
-        <!-- NOME -->
-        <div class="input-group">
-          <label for="nome">Nome completo</label>
+        <div id="signup-fields" style="display: none;">
 
-          <input
-            id="nome"
-            name="nome"
-            type="text"
-            autocomplete="name"
-            placeholder="Preencha apenas ao criar usuário"
-          >
+          <div class="input-group">
+            <label for="nome">Nome completo</label>
+            <input
+              id="nome"
+              name="nome"
+              type="text"
+              autocomplete="name"
+            >
+          </div>
+
+          <div class="input-group">
+            <label for="cargo">Tipo de acesso</label>
+            <select id="cargo" name="cargo">
+              <option value="membro">Membro</option>
+              <option value="discipulo">Discípulo</option>
+              <option value="lider">Líder</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label for="codigo_m12">Código M12</label>
+            <input
+              id="codigo_m12"
+              name="codigo_m12"
+              type="text"
+              placeholder="Ex: M12-001"
+            >
+          </div>
+
         </div>
 
-        <!-- EMAIL -->
         <div class="input-group">
           <label for="email">Email</label>
-
           <input
             id="email"
             name="email"
@@ -98,10 +104,8 @@
           >
         </div>
 
-        <!-- SENHA -->
         <div class="input-group">
           <label for="password">Senha</label>
-
           <input
             id="password"
             name="password"
@@ -111,35 +115,14 @@
           >
         </div>
 
-        <!-- TIPO DE ACESSO -->
-        <div class="input-group">
-          <label for="cargo">Tipo de acesso</label>
-
-          <select id="cargo" name="cargo">
-            <option value="membro">Membro</option>
-            <option value="discipulo">Discípulo</option>
-            <option value="lider">Líder</option>
-          </select>
-        </div>
-
-        <!-- CÓDIGO M12 -->
-        <div class="input-group">
-          <label for="codigo_m12">Código M12</label>
-
-          <input
-            id="codigo_m12"
-            name="codigo_m12"
-            type="text"
-            placeholder="Ex: M12-001"
-          >
-        </div>
-
-        <!-- BOTÃO LOGIN -->
-        <button class="btn primary" type="submit">
+        <button
+          class="btn primary"
+          type="submit"
+          id="login-btn"
+        >
           Entrar
         </button>
 
-        <!-- CRIAR CONTA -->
         <button
           class="btn secondary"
           type="button"
@@ -154,9 +137,7 @@
 
   </main>
 
-  <!-- FOOTER -->
   <footer class="footer">
-
     <p>
       Copyright © 2026
       IGREJA EM CÉLULA DA RESTAURAÇÃO.
@@ -165,7 +146,6 @@
     <p>
       Desenvolvido por DOZEDEV.COM
     </p>
-
   </footer>
 
 </body>

@@ -1,3 +1,5 @@
+let modoCadastro = false;
+
 document.addEventListener("DOMContentLoaded", () => {
   configurarMenuMobile();
   carregarLeituraAnual();
@@ -49,17 +51,40 @@ function getSupabase() {
 function configurarLogin() {
   const loginForm = document.getElementById("login-form");
   const signupBtn = document.getElementById("signup-btn");
+  const signupFields = document.getElementById("signup-fields");
+  const loginBtn = document.getElementById("login-btn");
 
-  if (loginForm) {
-    loginForm.addEventListener("submit", async (event) => {
-      event.preventDefault();
+  if (!loginForm) return;
+
+  loginForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (modoCadastro) {
+      await criarUsuarioComPerfil();
+    } else {
       await entrarUsuario();
-    });
-  }
+    }
+  });
 
   if (signupBtn) {
-    signupBtn.addEventListener("click", async () => {
-      await criarUsuarioComPerfil();
+    signupBtn.addEventListener("click", () => {
+      modoCadastro = !modoCadastro;
+
+      if (signupFields) {
+        signupFields.style.display = modoCadastro ? "grid" : "none";
+      }
+
+      if (signupBtn) {
+        signupBtn.textContent = modoCadastro
+          ? "Cancelar cadastro"
+          : "Criar usuário";
+      }
+
+      if (loginBtn) {
+        loginBtn.textContent = modoCadastro
+          ? "Finalizar cadastro"
+          : "Entrar";
+      }
     });
   }
 }
