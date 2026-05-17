@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   configurarModais();
   carregarPainelDiscipulo();
   configurarLogout();
+  configurarAdminTabs();
 });
 
 /* =========================
@@ -461,4 +462,40 @@ function carregarLeituraAnual() {
 
   if (barra) barra.style.width = `${progresso}%`;
   if (texto) texto.textContent = `${progresso}% do ano concluído`;
+}
+
+
+/* =========================
+   ADMIN TABS
+========================= */
+
+function configurarAdminTabs() {
+  const tabs = document.querySelectorAll("[data-admin-tab]");
+  const sections = document.querySelectorAll(".admin-section");
+
+  if (!tabs.length || !sections.length) return;
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const target = tab.dataset.adminTab;
+
+      tabs.forEach((item) => {
+        item.classList.remove("active");
+      });
+
+      sections.forEach((section) => {
+        section.classList.remove("active");
+      });
+
+      tab.classList.add("active");
+
+      const activeSection = document.getElementById(
+        `admin-${target}`
+      );
+
+      if (activeSection) {
+        activeSection.classList.add("active");
+      }
+    });
+  });
 }

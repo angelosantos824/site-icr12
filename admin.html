@@ -9,11 +9,8 @@
 
   <link rel="stylesheet" href="style.css">
 
-  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="supabase-config.js"></script>
-
-  <!-- Script principal -->
+  <script src="supabase-config.js"></script>
   <script src="script.js" defer></script>
 </head>
 
@@ -23,16 +20,229 @@
 
     <section class="page-card glass">
 
-      <p class="eyebrow">Painel</p>
+      <p class="eyebrow">Painel Administrativo</p>
 
-      <h1>Administração</h1>
+      <h1>Administração ICR12MPU</h1>
 
       <p>
-        Área preparada para futuras funções CRUD com Supabase.
-        Valide permissões também no banco com RLS.
+        Área reservada para gestão de conteúdos, usuários,
+        estudos, transmissões, calendário e contribuições.
       </p>
 
+      <!-- ABAS -->
+      <div class="admin-tabs">
+
+        <button class="admin-tab active" type="button" data-admin-tab="estudos">
+          Estudos
+        </button>
+
+        <button class="admin-tab" type="button" data-admin-tab="usuarios">
+          Usuários
+        </button>
+
+        <button class="admin-tab" type="button" data-admin-tab="youtube">
+          YouTube Ao Vivo
+        </button>
+
+        <button class="admin-tab" type="button" data-admin-tab="contribuicoes">
+          Contribuições
+        </button>
+
+        <button class="admin-tab" type="button" data-admin-tab="calendario">
+          Calendário
+        </button>
+
+        <button class="admin-tab" type="button" data-admin-tab="oracao">
+          Plano de Oração
+        </button>
+
+      </div>
+
+      <!-- ESTUDOS -->
+      <section class="admin-section active" id="admin-estudos">
+
+        <h2>Estudo da Semana</h2>
+
+        <form class="form-grid" id="form-estudo-admin">
+
+          <div class="input-group">
+            <label for="estudo-titulo">Título do estudo</label>
+            <input id="estudo-titulo" type="text" required>
+          </div>
+
+          <div class="input-group">
+            <label for="estudo-referencia">Referência bíblica</label>
+            <input id="estudo-referencia" type="text" placeholder="Ex: Isaías 54:2-3">
+          </div>
+
+          <div class="input-group">
+            <label for="estudo-conteudo">Conteúdo</label>
+            <textarea id="estudo-conteudo" required></textarea>
+          </div>
+
+          <button class="btn primary" type="submit">
+            Publicar estudo
+          </button>
+
+        </form>
+
+      </section>
+
+      <!-- USUÁRIOS -->
+      <section class="admin-section" id="admin-usuarios">
+
+        <h2>Gestão de Usuários</h2>
+
+        <p>
+          Aqui poderás editar cargos, códigos M12 e dados dos membros.
+        </p>
+
+        <div class="actions">
+          <button class="btn secondary" type="button" id="carregar-usuarios">
+            Carregar usuários
+          </button>
+        </div>
+
+        <div id="lista-usuarios" class="cards-grid"></div>
+
+      </section>
+
+      <!-- YOUTUBE -->
+      <section class="admin-section" id="admin-youtube">
+
+        <h2>Transmissão ao Vivo</h2>
+
+        <form class="form-grid" id="form-youtube-admin">
+
+          <div class="input-group">
+            <label for="youtube-link">Link do YouTube ao vivo</label>
+            <input
+              id="youtube-link"
+              type="url"
+              placeholder="https://www.youtube.com/watch?v=..."
+            >
+          </div>
+
+          <div class="input-group">
+            <label for="youtube-status">Status</label>
+
+            <select id="youtube-status">
+              <option value="ativo">Ativo</option>
+              <option value="inativo">Inativo</option>
+            </select>
+          </div>
+
+          <button class="btn primary" type="submit">
+            Salvar transmissão
+          </button>
+
+        </form>
+
+      </section>
+
+      <!-- CONTRIBUIÇÕES -->
+      <section class="admin-section" id="admin-contribuicoes">
+
+        <h2>Doações, Ofertas, Dízimos e Primícias</h2>
+
+        <form class="form-grid" id="form-contribuicoes-admin">
+
+          <div class="input-group">
+            <label for="contribuicao-titulo">Título</label>
+            <input
+              id="contribuicao-titulo"
+              type="text"
+              placeholder="Ex: Dízimos e Ofertas"
+            >
+          </div>
+
+          <div class="input-group">
+            <label for="contribuicao-descricao">Descrição</label>
+            <textarea id="contribuicao-descricao"></textarea>
+          </div>
+
+          <div class="input-group">
+            <label for="contribuicao-iban">PIX / Dados bancários</label>
+            <input id="contribuicao-iban" type="text">
+          </div>
+
+          <button class="btn primary" type="submit">
+            Salvar dados
+          </button>
+
+        </form>
+
+      </section>
+
+      <!-- CALENDÁRIO -->
+      <section class="admin-section" id="admin-calendario">
+
+        <h2>Calendário</h2>
+
+        <form class="form-grid" id="form-calendario-admin">
+
+          <div class="input-group">
+            <label for="evento-titulo">Título do evento</label>
+            <input id="evento-titulo" type="text">
+          </div>
+
+          <div class="input-group">
+            <label for="evento-data">Data</label>
+            <input id="evento-data" type="date">
+          </div>
+
+          <div class="input-group">
+            <label for="evento-descricao">Descrição</label>
+            <textarea id="evento-descricao"></textarea>
+          </div>
+
+          <button class="btn primary" type="submit">
+            Criar evento
+          </button>
+
+        </form>
+
+      </section>
+
+      <!-- PLANO DE ORAÇÃO -->
+      <section class="admin-section" id="admin-oracao">
+
+        <h2>Plano de Oração</h2>
+
+        <form class="form-grid" id="form-oracao-admin">
+
+          <div class="input-group">
+            <label for="oracao-dia">Dia da semana</label>
+
+            <select id="oracao-dia">
+              <option value="segunda">Segunda</option>
+              <option value="terca">Terça</option>
+              <option value="quarta">Quarta</option>
+              <option value="quinta">Quinta</option>
+              <option value="sexta">Sexta</option>
+              <option value="sabado">Sábado</option>
+              <option value="domingo">Domingo</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label for="oracao-tema">Tema de oração</label>
+            <input id="oracao-tema" type="text">
+          </div>
+
+          <button class="btn primary" type="submit">
+            Salvar plano
+          </button>
+
+        </form>
+
+      </section>
+
       <div class="actions">
+        <button class="btn secondary" type="button" id="logout-btn">
+          Sair
+        </button>
+
         <a class="btn secondary" href="index.html">
           Voltar ao site
         </a>
