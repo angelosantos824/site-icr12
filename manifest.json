@@ -1,0 +1,16 @@
+{
+  "name": "ICR12MPU",
+  "short_name": "ICR12",
+  "description": "Site oficial ICR12MPU com estudos, decretos, notícias e área restrita.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#d4af37",
+  "icons": [
+    {
+      "src": "Imagens/logoapp.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

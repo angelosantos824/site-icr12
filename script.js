@@ -293,7 +293,7 @@ function redirecionarPorCargo(cargo) {
 
     case "lider":
       window.location.href =
-        "painel-lider.html";
+        "painel-discipulo.html";
       break;
 
     default:
@@ -518,6 +518,22 @@ function configurarModais() {
         }
       );
     });
+
+  document.querySelectorAll(".modal").forEach((modal) => {
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        fecharModal(modal.id);
+      }
+    });
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+
+    document
+      .querySelectorAll(".modal.active")
+      .forEach((modal) => fecharModal(modal.id));
+  });
 }
 
 async function abrirModal(
@@ -547,6 +563,7 @@ async function abrirModal(
   }
 
   modal.classList.add("active");
+  modal.setAttribute("aria-hidden", "false");
 
   if (!ficheiro || !bodyEl) return;
 
@@ -581,6 +598,7 @@ function fecharModal(modalId) {
 
   if (modal) {
     modal.classList.remove("active");
+    modal.setAttribute("aria-hidden", "true");
   }
 }
 
@@ -599,6 +617,15 @@ function carregarLeituraAnual() {
     document.getElementById(
       "link-leitura"
     );
+
+  const dataAtual =
+    document.getElementById("data-atual");
+
+  const barraConcluida =
+    document.getElementById("barra-concluida");
+
+  const porcentagemAno =
+    document.getElementById("porcentagem-ano");
 
   if (
     !trechoBiblico ||
@@ -619,11 +646,49 @@ function carregarLeituraAnual() {
       (agora - inicioAno) / 86400000
     );
 
+  const fimAno =
+    new Date(
+      agora.getFullYear(),
+      11,
+      31
+    );
+
+  const totalDiasAno =
+    Math.floor(
+      (fimAno - inicioAno) / 86400000
+    );
+
+  const progresso =
+    Math.min(
+      100,
+      Math.round((diaDoAno / totalDiasAno) * 100)
+    );
+
   trechoBiblico.textContent =
     `Leitura do dia ${diaDoAno}`;
 
   linkLeitura.href =
     "https://www.bibliaonline.com.br";
+
+  if (dataAtual) {
+    dataAtual.textContent =
+      agora.toLocaleDateString("pt-PT", {
+        weekday: "long",
+        day: "2-digit",
+        month: "long",
+        year: "numeric"
+      });
+  }
+
+  if (barraConcluida) {
+    barraConcluida.style.width =
+      `${progresso}%`;
+  }
+
+  if (porcentagemAno) {
+    porcentagemAno.textContent =
+      `${progresso}% do ano concluído`;
+  }
 }
 
 /* =========================

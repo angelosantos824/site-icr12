@@ -13,6 +13,7 @@
   --border: rgba(255,255,255,.14);
   --shadow: 0 20px 45px rgba(0,0,0,.35);
   --radius: 24px;
+  --header-height: 72px;
 }
 
 
@@ -85,7 +86,7 @@ img {
 }
 
 .navbar {
-  min-height: 72px;
+  min-height: var(--header-height);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -104,8 +105,11 @@ img {
 }
 
 .brand img {
+  width: 48px;
   height: 48px;
-  width: auto;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(212,175,55,.45);
 }
 
 .nav-links {
@@ -152,7 +156,7 @@ img {
 
 .hero {
   position: relative;
-  min-height: calc(100vh - 72px);
+  min-height: calc(100vh - var(--header-height));
   display: grid;
   place-items: center;
   padding: 80px 0;
@@ -163,8 +167,8 @@ img {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(to bottom, rgba(2,6,23,.35), #020617),
-    url("Imagens/fundo-tema-2026.jpg") center/cover no-repeat;
+    linear-gradient(to bottom, rgba(2,6,23,.24), #020617),
+    url("Imagens/fundo.avif") center/cover no-repeat;
   z-index: -1;
   opacity: .7;
 }
@@ -398,11 +402,16 @@ small {
   border: 1px solid var(--border);
   border-radius: 18px;
   background: var(--surface);
+  min-height: 100%;
 }
 
 .card h3 {
   color: var(--gold);
   margin-bottom: 10px;
+}
+
+.card .btn {
+  margin-top: 18px;
 }
 
 
@@ -481,6 +490,94 @@ textarea {
   color: #111827;
 }
 
+.contato-direto {
+  display: grid;
+  gap: 8px;
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(1,4,9,.76);
+  backdrop-filter: blur(8px);
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  width: min(840px, 100%);
+  max-height: min(760px, calc(100vh - 48px));
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #07111f;
+  box-shadow: var(--shadow);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-title {
+  margin: 0;
+  font-size: clamp(1.35rem, 3vw, 2rem);
+}
+
+.modal-close {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 9px 16px;
+  background: var(--surface);
+  color: #fff;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.modal-body {
+  max-height: calc(100vh - 180px);
+  overflow: auto;
+  padding: 24px;
+}
+
+.modal-body pre {
+  white-space: pre-wrap;
+  font: inherit;
+  color: var(--text);
+}
+
+.modal-body p,
+.modal-body blockquote {
+  margin-bottom: 14px;
+}
+
+.modal-body blockquote {
+  border-left: 3px solid var(--gold);
+  padding-left: 16px;
+  color: #fff;
+}
+
+.verse-reference {
+  color: var(--gold);
+  font-weight: 800;
+}
+
 
 /* =====================================================
    14. FOOTER / RODAPÉ
@@ -506,7 +603,7 @@ textarea {
 
   .nav-links {
     position: fixed;
-    top: 72px;
+    top: var(--header-height);
     left: 0;
     right: 0;
     display: none;
@@ -562,6 +659,18 @@ textarea {
 
   .brand span {
     display: none;
+  }
+
+  .modal {
+    padding: 10px;
+  }
+
+  .modal-header {
+    padding: 16px;
+  }
+
+  .modal-body {
+    padding: 18px;
   }
 }
 
