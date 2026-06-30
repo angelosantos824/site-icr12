@@ -24,8 +24,8 @@
         <li><a href="sobre.html">Sobre</a></li>
         <li><a href="estudos.html">Estudos</a></li>
         <li><a href="decretos.html">Decretos</a></li>
-        <li><a href="Noticias.html">Notícias</a></li>
-        <li><a href="Contactos.html">Contato</a></li>
+        <li><a href="noticias.html">Notícias</a></li>
+        <li><a href="contactos.html">Contato</a></li>
         <li><a href="login.html">Área Restrita</a></li>
       </ul>
     </nav>
@@ -35,13 +35,67 @@
     <section class="hero">
       <div class="hero-bg" aria-hidden="true"></div>
       <div class="container hero-card glass">
-        <p class="eyebrow">Tema 2026</p>
+        <div class="hero-badge">Tema 2026 · Expansão</div>
+        <p class="eyebrow">Casa de restauração e propósito</p>
         <h1>Expansão, propósito e restauração</h1>
         <p class="verse">“Amplia o lugar da tua tenda... alonga as tuas cordas, e fixa bem as tuas estacas.”</p>
         <p class="reference">Isaías 54:2-3</p>
         <div class="actions">
           <a class="btn primary" href="decretos.html">Ver Decretos</a>
           <a class="btn secondary" href="estudos.html">Acessar Estudos</a>
+        </div>
+        <div class="hero-stats" aria-label="Indicadores do movimento">
+          <div class="stat-item">
+            <strong>7</strong>
+            <span>dias de oração</span>
+          </div>
+          <div class="stat-item">
+            <strong>2026</strong>
+            <span>tema de expansão</span>
+          </div>
+          <div class="stat-item">
+            <strong>1</strong>
+            <span>propósito: restaurar</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="section-header">
+        <p class="eyebrow">Nossa proposta</p>
+        <h2>Uma igreja em movimento, com propósito e presença</h2>
+        <p>Conectamos ensino, oração, comunhão e ação para fortalecer a vida da igreja, da família e das gerações futuras.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card glass">
+          <h3>Estudos e formação</h3>
+          <p>Materiais organizados para células, liderança, discipulado e crescimento espiritual contínuo.</p>
+          <a class="text-link" href="estudos.html">Ver materiais</a>
+        </article>
+        <article class="feature-card glass">
+          <h3>Decretos e direção</h3>
+          <p>Palavras de fé, propósito e direção para cada semana, com clareza e unção.</p>
+          <a class="text-link" href="decretos.html">Abrir decretos</a>
+        </article>
+        <article class="feature-card glass">
+          <h3>Comunicação e contato</h3>
+          <p>Fique perto da igreja, das notícias, do cuidado pastoral e das oportunidades de servir.</p>
+          <a class="text-link" href="contactos.html">Entrar em contato</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section container">
+      <div class="highlight-panel glass">
+        <div>
+          <p class="eyebrow">Conecta-se</p>
+          <h2>Uma casa aberta para quem deseja crescer em fé, propósito e comunhão.</h2>
+          <p>Em cada estudo, oração e momento de reunião, buscamos viver com excelência, amor e direção espiritual, sempre com o coração voltado para a obra do Senhor.</p>
+        </div>
+        <div class="highlight-actions">
+          <a class="btn primary" href="sobre.html">Conhecer a igreja</a>
+          <a class="btn secondary" href="contactos.html">Falar com a equipe</a>
         </div>
       </div>
     </section>
@@ -82,19 +136,48 @@
       </div>
     </section>
 
-    <section class="section container split">
-      <div>
-        <p class="eyebrow">AO VIVO / ÚLTIMO CULTO</p>
-        <h2>Canal ICR12 Oficial</h2>
-        <p>Acompanhe a programação semanal e seja abençoado.</p>
+    <section class="section container live-section">
+      <div class="live-card glass">
+        <div class="live-meta">
+          <p class="eyebrow">AO VIVO / ÚLTIMO CULTO</p>
+          <h2>Transmissão oficial ICR12</h2>
+          <p id="live-status-text">Se não houver transmissão ao vivo, o player exibirá o último culto disponível.</p>
+        </div>
+        <div class="live-media">
+          <iframe
+            id="live-frame"
+            title="Transmissão ICR12"
+            src="https://www.youtube.com/embed/8d4XD1KWfuw?rel=0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
+        </div>
+        <div class="live-actions">
+          <a
+            class="btn youtube"
+            id="live-link"
+            href="https://www.youtube.com/@Icr12_oficial"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Ir para o canal
+          </a>
+        </div>
+        <div class="live-fallback">
+          <p>Se o player não carregar, acesse o canal oficial para assistir o último estudo ou culto.</p>
+        </div>
       </div>
-      <a class="btn youtube" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">Ir para o YouTube</a>
     </section>
   </main>
 
   <footer class="footer">
-    <p>Copyright © 2026 IGREJA EM CÉLULA DA RESTAURAÇÃO</p>
-    <p>Desenvolvido por DOZEDEV.COM</p>
+    <p class="footer-brand">ICR12MPU</p>
+    <div class="footer-links">
+      <a href="privacidade.html">Privacidade</a>
+      <a href="cookies.html">Cookies</a>
+      <a href="termo.html">Termos</a>
+    </div>
+    <small>Desenvolvido por DOZEDEV.COM • © 2026 IGREJA EM CÉLULA DA RESTAURAÇÃO</small>
   </footer>
 </body>
 </html>

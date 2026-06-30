@@ -25,43 +25,25 @@
 
   <!-- HEADER -->
   <header class="site-header">
-
-    <nav class="navbar">
-
-      <a class="brand" href="index.html">
+    <nav class="navbar" aria-label="Navegação principal">
+      <a class="brand" href="index.html" aria-label="Página inicial ICR12MPU">
+        <img src="Imagens/logo.jpeg" alt="ICR12MPU" onerror="this.style.display='none'">
         <span>ICR12MPU</span>
       </a>
-
-      <button
-        class="menu-toggle"
-        id="mobile-menu"
-        type="button"
-        aria-controls="nav-list"
-        aria-expanded="false"
-      >
+      <button class="menu-toggle" id="mobile-menu" type="button" aria-controls="nav-list" aria-expanded="false">
         ☰
       </button>
-
       <ul class="nav-links" id="nav-list">
-
-        <li><a href="index.html">Home</a></li>
-
-        <li>
-          <a class="active" href="sobre.html">
-            Sobre
-          </a>
-        </li>
-
+        <li><a class="active" href="sobre.html">Sobre</a></li>
         <li><a href="estudos.html">Estudos</a></li>
-
         <li><a href="decretos.html">Decretos</a></li>
-
-        <li><a href="Noticias.html">Notícias</a></li>
-
-        <li><a href="Contactos.html">Contato</a></li>
-
+        <li><a href="noticias.html">Notícias</a></li>
+        <li><a href="contactos.html">Contato</a></li>
         <li><a href="login.html">Área Restrita</a></li>
-
+      </ul>
+    </nav>
+  </header>
+        
       </ul>
 
     </nav>
@@ -135,16 +117,13 @@
 
   <!-- FOOTER -->
   <footer class="footer">
-
-    <p>
-      Copyright © 2026
-      IGREJA EM CÉLULA DA RESTAURAÇÃO.
-    </p>
-
-    <p>
-      Desenvolvido por DOZEDEV.COM
-    </p>
-
+    <p class="footer-brand">ICR12MPU</p>
+    <div class="footer-links">
+      <a href="privacidade.html">Privacidade</a>
+      <a href="cookies.html">Cookies</a>
+      <a href="termo.html">Termos</a>
+    </div>
+    <small>Desenvolvido por DOZEDEV.COM • © 2026 IGREJA EM CÉLULA DA RESTAURAÇÃO</small>
   </footer>
 
 </body>

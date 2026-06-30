@@ -20,47 +20,52 @@
 <body>
 
   <header class="site-header">
-    <nav class="navbar">
-
-      <a class="brand" href="index.html">
+    <nav class="navbar" aria-label="Navegação principal">
+      <a class="brand" href="index.html" aria-label="Página inicial ICR12MPU">
+        <img src="Imagens/logo.jpeg" alt="ICR12MPU" onerror="this.style.display='none'">
         <span>ICR12MPU</span>
       </a>
-
-      <button
-        class="menu-toggle"
-        id="mobile-menu"
-        type="button"
-        aria-controls="nav-list"
-        aria-expanded="false"
-      >
+      <button class="menu-toggle" id="mobile-menu" type="button" aria-controls="nav-list" aria-expanded="false">
         ☰
       </button>
-
       <ul class="nav-links" id="nav-list">
-        <li><a href="index.html">Home</a></li>
         <li><a href="sobre.html">Sobre</a></li>
         <li><a class="active" href="estudos.html">Estudos</a></li>
         <li><a href="decretos.html">Decretos</a></li>
-        <li><a href="Noticias.html">Notícias</a></li>
-        <li><a href="Contactos.html">Contato</a></li>
+        <li><a href="noticias.html">Notícias</a></li>
+        <li><a href="contactos.html">Contato</a></li>
         <li><a href="login.html">Área Restrita</a></li>
       </ul>
-
     </nav>
   </header>
 
   <main class="section container">
 
-    <section class="page-card glass">
+    <section class="page-card glass" aria-labelledby="estudos-title">
 
       <p class="eyebrow">Formação</p>
 
-      <h1>Estudos</h1>
+      <h1 id="estudos-title">Estudos</h1>
 
-      <p>
-        Materiais organizados para células,
+      <p class="section-text">
+        Materiais organizados pela igreja matriz
+        e pelo nosso grupo local para células,
         liderança e discipulado.
       </p>
+
+      <div class="study-banner">
+        <img src="Imagens/capa-12.jpg" alt="Estudo dos 12">
+        <div class="study-text">
+          <p class="section-text">
+            Um percurso formativo com base oficial para o modelo dos 12, direcionado a líderes,
+            células e discípulos que desejam crescer em fé e em amor ao próximo.
+          </p>
+          <p class="section-text">
+            O Estudo dos 12 reúne conteúdos de formação, reflexões bíblicas e aplicações práticas
+            para fortalecer a igreja em unidade.
+          </p>
+        </div>
+      </div>
 
       <div class="cards-grid">
 
@@ -68,8 +73,8 @@
           <h3>Estudo dos 12</h3>
 
           <p>
-            Conteúdo para consolidação e crescimento
-            no modelo dos 12.
+            Um estudo oficial da igreja matriz para o modelo dos 12, voltado para
+            discipulado, liderança e formação de células.
           </p>
 
           <button
@@ -87,7 +92,8 @@
           <h3>Estudo de Célula</h3>
 
           <p>
-            Material de apoio para encontros semanais.
+            Material de apoio para encontro de célula, com reflexões bíblicas e temas práticos
+            para edificação em grupo.
           </p>
 
           <button

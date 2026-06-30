@@ -18,160 +18,130 @@
 </head>
 
 <body>
-
-  <!-- HEADER -->
   <header class="site-header">
-
-    <nav class="navbar">
-
-      <a class="brand" href="index.html">
+    <nav class="navbar" aria-label="Navegação principal">
+      <a class="brand" href="index.html" aria-label="Página inicial ICR12MPU">
+        <img src="Imagens/logo.jpeg" alt="ICR12MPU" onerror="this.style.display='none'">
         <span>ICR12MPU</span>
       </a>
-
-      <button
-        class="menu-toggle"
-        id="mobile-menu"
-        type="button"
-        aria-controls="nav-list"
-        aria-expanded="false"
-      >
-        ☰
-      </button>
-
+      <button class="menu-toggle" id="mobile-menu" type="button" aria-controls="nav-list" aria-expanded="false">☰</button>
       <ul class="nav-links" id="nav-list">
-        <li><a href="index.html">Home</a></li>
         <li><a href="sobre.html">Sobre</a></li>
         <li><a href="estudos.html">Estudos</a></li>
         <li><a href="decretos.html">Decretos</a></li>
-        <li><a href="Noticias.html">Notícias</a></li>
-        <li><a class="active" href="Contactos.html">Contato</a></li>
+        <li><a href="noticias.html">Notícias</a></li>
+        <li><a class="active" href="contactos.html">Contato</a></li>
         <li><a href="login.html">Área Restrita</a></li>
       </ul>
-
     </nav>
-
   </header>
 
-  <!-- MAIN -->
-  <main class="section container">
+  <main>
+    <section class="contact-page">
 
-    <section class="form-card glass">
+      <!-- REDES SOCIAIS (exibidas no painel à esquerda) -->
+      <div class="contact-grid">
+        <div class="contact-panel">
+          <p class="panel-title">Conexão direta</p>
 
-      <p class="eyebrow">Fale conosco</p>
+          <div class="social-list">
+            <a class="social-btn" href="https://www.facebook.com/apostologregoriomenezes/" target="_blank" rel="noopener noreferrer" aria-label="Facebook ICR12">
+              <span class="icon" aria-hidden="true"> 
+                <!-- Facebook SVG -->
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 12C22 6.48 17.52 2 12 2S2 6.48 2 12c0 4.84 3.44 8.84 8 9.8V14.7H8.2v-2.7H10V10c0-1.8 1.08-2.8 2.72-2.8.8 0 1.64.14 1.64.14v1.8h-.92c-.9 0-1.18.56-1.18 1.14v1.36h2l-.32 2.7h-1.68V21.8c4.56-.96 8-4.96 8-9.8z" fill="currentColor"/></svg>
+              </span>
+              Facebook
+            </a>
 
-      <h1>Contato</h1>
+            <a class="social-btn" href="https://www.instagram.com/icr12oficial/" target="_blank" rel="noopener noreferrer" aria-label="Instagram ICR12">
+              <span class="icon" aria-hidden="true">
+                <!-- Instagram SVG -->
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6.5A4.5 4.5 0 1 0 16.5 13 4.5 4.5 0 0 0 12 8.5zM18.5 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" fill="currentColor"/></svg>
+              </span>
+              Instagram
+            </a>
 
-      <!-- REDES SOCIAIS -->
-      <ul class="social-list">
+            <a class="social-btn" href="https://www.youtube.com/c/ICR12Oficial" target="_blank" rel="noopener noreferrer" aria-label="YouTube ICR12">
+              <span class="icon" aria-hidden="true">
+                <!-- YouTube SVG -->
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M23 7s-1-2-3-2H4C2 5 1 7 1 7S0 9 0 11v2c0 2 1 4 1 4s1 2 3 2h16c2 0 3-2 3-2s1-2 1-4v-2c0-2-1-4-1-4zM10 15V9l5 3-5 3z" fill="currentColor"/></svg>
+              </span>
+              YouTube
+            </a>
+          </div>
 
-        <li>
-          <a
-            href="https://www.facebook.com/apostologregoriomenezes/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Facebook
-          </a>
-        </li>
+          <div class="contato-direto">
+            <p>
+              <strong>Email:</strong>
+              contatos@icr12.com.br
+            </p>
 
-        <li>
-          <a
-            href="https://www.instagram.com/icr12oficial/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Instagram
-          </a>
-        </li>
-
-        <li>
-          <a
-            href="https://www.youtube.com/c/ICR12Oficial"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            YouTube
-          </a>
-        </li>
-
-      </ul>
-
-      <!-- FORMULÁRIO -->
-      <form id="contact-form" class="form-grid">
-
-        <div class="input-group">
-          <label for="nome">Nome</label>
-
-          <input
-            id="nome"
-            name="nome"
-            type="text"
-            autocomplete="name"
-            required
-            minlength="3"
-          >
+            <p>
+              <strong>Telefone:</strong>
+              (92) 99999-9999
+            </p>
+          </div>
         </div>
 
-        <div class="input-group">
-          <label for="email">Email</label>
+        <!-- FORMULÁRIO -->
+        <form id="contact-form" class="form-grid contact-form-panel">
 
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autocomplete="email"
-            required
-          >
-        </div>
+          <div class="input-group">
+            <label for="nome">Nome</label>
 
-        <div class="input-group">
-          <label for="mensagem">Mensagem</label>
+            <input
+              id="nome"
+              name="nome"
+              type="text"
+              autocomplete="name"
+              required
+              minlength="3"
+            >
+          </div>
 
-          <textarea
-            id="mensagem"
-            name="mensagem"
-            required
-            minlength="10"
-          ></textarea>
-        </div>
+          <div class="input-group">
+            <label for="email">Email</label>
 
-        <button class="btn primary" type="submit">
-          Enviar Mensagem
-        </button>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+            >
+          </div>
 
-      </form>
+          <div class="input-group">
+            <label for="mensagem">Mensagem</label>
 
-      <!-- CONTATO DIRETO -->
-    <div class="contato-direto">
+            <textarea
+              id="mensagem"
+              name="mensagem"
+              required
+              minlength="10"
+            ></textarea>
+          </div>
 
-        <p>
-          <strong>Email:</strong>
-          contatos@icr12.com.br
-        </p>
+          <button class="btn primary" type="submit">
+            Enviar Mensagem
+          </button>
 
-        <p>
-          <strong>Telefone:</strong>
-          (92) 99999-9999
-        </p>
-    </div>
+        </form>
+      </div>
 
     </section>
-
   </main>
 
   <!-- FOOTER -->
   <footer class="footer">
-
-    <p>
-      Copyright © 2026 IGREJA EM CÉLULA DA RESTAURAÇÃO.
-    </p>
-
-    <p>
-      Desenvolvido por DOZEDEV.COM
-    </p>
-
+    <p class="footer-brand">ICR12MPU</p>
+    <div class="footer-links">
+      <a href="privacidade.html">Privacidade</a>
+      <a href="cookies.html">Cookies</a>
+      <a href="termo.html">Termos</a>
+    </div>
+    <small>Desenvolvido por DOZEDEV.COM • © 2026 IGREJA EM CÉLULA DA RESTAURAÇÃO</small>
   </footer>
 
 </body>
-
 </html>

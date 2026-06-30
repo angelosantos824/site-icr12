@@ -3,9 +3,11 @@ let modoCadastro = false;
 document.addEventListener("DOMContentLoaded", () => {
   configurarMenuMobile();
   carregarLeituraAnual();
+  carregarTransmissao();
   configurarLogin();
   configurarContacto();
   configurarModais();
+  configurarLoginModal();
   carregarPainelDiscipulo();
   configurarLogout();
   configurarAdminTabs();
@@ -38,6 +40,70 @@ function configurarMenuMobile() {
 }
 
 /* =========================
+   LOGIN COMO MODAL
+========================= */
+
+function configurarLoginModal() {
+  document.querySelectorAll('a[href$="login.html"]').forEach((link) => {
+    link.addEventListener('click', async (ev) => {
+      ev.preventDefault();
+
+      const modalId = 'modal-login';
+
+      // criar modal no DOM se não existir
+      if (!document.getElementById(modalId)) {
+        const modalHtml = `
+        <div class="modal" id="${modalId}" aria-hidden="true">
+          <div class="modal-content" role="dialog" aria-modal="true">
+            <div class="modal-header">
+              <h2 class="modal-title">Área Restrita</h2>
+              <button class="modal-close" type="button" data-modal-close="${modalId}">Fechar</button>
+            </div>
+            <div class="modal-body"><p>Carregando...</p></div>
+          </div>
+        </div>`;
+
+        document.body.insertAdjacentHTML('beforeend', modalHtml);
+      }
+
+      const modal = document.getElementById(modalId);
+      const bodyEl = modal.querySelector('.modal-body');
+
+      // abrir modal imediatamente
+      modal.classList.add('active');
+      modal.setAttribute('aria-hidden', 'false');
+
+      try {
+        const resp = await fetch('login.html', { mode: 'cors' });
+        if (!resp.ok) throw new Error('Não foi possível carregar o formulário.');
+
+        const txt = await resp.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(txt, 'text/html');
+
+        // preferir o formulário com id login-form ou a seção .form-card
+        const formEl = doc.getElementById('login-form') || doc.querySelector('.form-card') || doc.querySelector('main');
+
+        if (formEl) {
+          bodyEl.innerHTML = '';
+          bodyEl.appendChild(formEl.cloneNode(true));
+        } else {
+          bodyEl.innerHTML = doc.body.innerHTML || txt;
+        }
+
+        // ligar manipuladores do formulário agora que o DOM foi inserido
+        configurarLogin(bodyEl);
+
+        // reaplicar handlers do modal (fechar, overlay, ESC)
+        configurarModais();
+      } catch (err) {
+        bodyEl.innerHTML = `<div class="modal-error"><p>Erro ao carregar o formulário de login.</p></div>`;
+      }
+    });
+  });
+}
+
+/* =========================
    SUPABASE
 ========================= */
 
@@ -49,11 +115,11 @@ function getSupabase() {
    LOGIN / CADASTRO
 ========================= */
 
-function configurarLogin() {
-  const loginForm = document.getElementById("login-form");
-  const signupBtn = document.getElementById("signup-btn");
-  const signupFields = document.getElementById("signup-fields");
-  const loginBtn = document.getElementById("login-btn");
+function configurarLogin(root = document) {
+  const loginForm = root.querySelector("#login-form");
+  const signupBtn = root.querySelector("#signup-btn");
+  const signupFields = root.querySelector("#signup-fields");
+  const loginBtn = root.querySelector("#login-btn");
 
   if (!loginForm) return;
 
@@ -61,9 +127,9 @@ function configurarLogin() {
     event.preventDefault();
 
     if (modoCadastro) {
-      await criarUsuarioComPerfil();
+      await criarUsuarioComPerfil(root);
     } else {
-      await entrarUsuario();
+      await entrarUsuario(root);
     }
   });
 
@@ -72,24 +138,19 @@ function configurarLogin() {
       modoCadastro = !modoCadastro;
 
       if (signupFields) {
-        signupFields.style.display =
-          modoCadastro ? "grid" : "none";
+        signupFields.style.display = modoCadastro ? "grid" : "none";
       }
 
-      signupBtn.textContent =
-        modoCadastro
-          ? "Cancelar cadastro"
-          : "Criar usuário";
+      signupBtn.textContent = modoCadastro ? "Cancelar cadastro" : "Criar usuário";
 
-      loginBtn.textContent =
-        modoCadastro
-          ? "Finalizar cadastro"
-          : "Entrar";
+      if (loginBtn) {
+        loginBtn.textContent = modoCadastro ? "Finalizar cadastro" : "Entrar";
+      }
     });
   }
 }
 
-async function entrarUsuario() {
+async function entrarUsuario(root = document) {
   const client = getSupabase();
 
   if (!client) {
@@ -97,17 +158,10 @@ async function entrarUsuario() {
     return;
   }
 
-  const email =
-    document.getElementById("email").value.trim();
+  const email = (root.querySelector('#email') || {}).value?.trim() || '';
+  const password = (root.querySelector('#password') || {}).value || '';
 
-  const password =
-    document.getElementById("password").value;
-
-  const { data, error } =
-    await client.auth.signInWithPassword({
-      email,
-      password,
-    });
+  const { data, error } = await client.auth.signInWithPassword({ email, password });
 
   if (error) {
     alert("Erro ao entrar: " + error.message);
@@ -117,7 +171,7 @@ async function entrarUsuario() {
   await verificarNivelAcesso(data.user);
 }
 
-async function criarUsuarioComPerfil() {
+async function criarUsuarioComPerfil(root = document) {
   const client = getSupabase();
 
   if (!client) {
@@ -125,17 +179,10 @@ async function criarUsuarioComPerfil() {
     return;
   }
 
-  const nome =
-    document.getElementById("nome")?.value.trim();
-
-  const email =
-    document.getElementById("email")?.value.trim();
-
-  const password =
-    document.getElementById("password")?.value;
-
-  const cargo =
-    document.getElementById("cargo")?.value || "membro";
+  const nome = (root.querySelector('#nome') || {}).value?.trim() || '';
+  const email = (root.querySelector('#email') || {}).value?.trim() || '';
+  const password = (root.querySelector('#password') || {}).value || '';
+  const cargo = (root.querySelector('#cargo') || {}).value || 'membro';
 
   if (!nome || !email || !password) {
     alert("Preenche nome, email e senha.");
@@ -553,8 +600,22 @@ async function abrirModal(
   const bodyEl =
     modal.querySelector(".modal-body");
 
+  const titleId = `${modalId}-title`;
+
   if (titleEl) {
     titleEl.textContent = titulo;
+    titleEl.id = titleId;
+  }
+
+  const modalContent = modal.querySelector(
+    ".modal-content"
+  );
+
+  if (modalContent) {
+    modalContent.setAttribute(
+      "aria-labelledby",
+      titleId
+    );
   }
 
   if (bodyEl) {
@@ -565,31 +626,72 @@ async function abrirModal(
   modal.classList.add("active");
   modal.setAttribute("aria-hidden", "false");
 
+  const closeBtn = modal.querySelector(
+    ".modal-close"
+  );
+
+  closeBtn?.focus();
+
   if (!ficheiro || !bodyEl) return;
 
   try {
-
-    const response =
-      await fetch(ficheiro);
+    const response = await fetch(ficheiro, {
+      mode: "cors",
+    });
 
     if (!response.ok) {
-      throw new Error(
-        "Ficheiro não encontrado."
-      );
+      throw new Error("Ficheiro não encontrado.");
     }
 
-    const texto =
-      await response.text();
+    const contentType =
+      response.headers
+        .get("content-type") || "";
 
+    const texto = await response.text();
+
+    if (
+      contentType.includes("text/html") ||
+      /^https?:\/\//i.test(ficheiro)
+    ) {
+      const parser =
+        new DOMParser();
+      const doc = parser.parseFromString(
+        texto,
+        "text/html"
+      );
+
+      const bodyContent =
+        doc.body.innerHTML || texto;
+
+      bodyEl.innerHTML = `
+        <div class="modal-html">
+          ${bodyContent}
+        </div>
+        <div class="modal-note">
+          Conteúdo carregado de:
+          <a href="${ficheiro}" target="_blank" rel="noopener noreferrer">
+            ${ficheiro}
+          </a>
+        </div>
+      `;
+    } else {
+      bodyEl.innerHTML =
+        `<pre>${texto}</pre>`;
+    }
+  } catch (error) {
     bodyEl.innerHTML =
-      `<pre>${texto}</pre>`;
-
-  } catch {
-
-    bodyEl.innerHTML =
-      "<p>Erro ao carregar conteúdo.</p>";
+      `<div class="modal-error">
+        <p>Erro ao carregar o conteúdo do link.</p>
+        <p>Verifique se o URL está correto ou atualize o arquivo local.</p>
+        <p>
+          <a href="${ficheiro}" target="_blank" rel="noopener noreferrer">
+            Abrir no site de origem
+          </a>
+        </p>
+      </div>`;
   }
 }
+
 
 function fecharModal(modalId) {
 
@@ -688,6 +790,26 @@ function carregarLeituraAnual() {
   if (porcentagemAno) {
     porcentagemAno.textContent =
       `${progresso}% do ano concluído`;
+  }
+}
+
+function carregarTransmissao() {
+  const liveFrame = document.getElementById("live-frame");
+  const liveLink = document.getElementById("live-link");
+  const liveStatus = document.getElementById("live-status-text");
+
+  if (!liveFrame || !liveLink) return;
+
+  const videoId = "8d4XD1KWfuw";
+  const channelUrl = "https://www.youtube.com/@Icr12_oficial";
+  const videoEmbed = `https://www.youtube.com/embed/${videoId}`;
+
+  liveFrame.src = videoEmbed;
+  liveLink.href = channelUrl;
+
+  if (liveStatus) {
+    liveStatus.textContent =
+      "Último culto: transmissão fixa para o vídeo mais recente do canal."
   }
 }
 
